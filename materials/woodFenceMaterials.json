@@ -1,0 +1,227 @@
+{
+  "concrete": [
+    {
+      "name": "50lbs fast set",
+      "price": 7,
+      "sku": "Wc001",
+      "width": 8
+    },
+    {
+      "name": "80lb standard",
+      "price": 18,
+      "sku": "Wc002",
+      "width": 8
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM004",
+      "width": 0
+    },
+    {
+      "name": "",
+      "price": 0,
+      "sku": "",
+      "width": 0
+    }
+  ],
+  "fasteners": [
+    {
+      "name": "5lb box 1 5/8 screws",
+      "price": 37.5,
+      "qty": "5 lbs",
+      "sku": "WF001"
+    },
+    {
+      "name": "5lb box ring shank nails",
+      "price": 18,
+      "qty": "5 lbs",
+      "sku": "WF002"
+    }
+  ],
+  "gates": [
+    {
+      "fenceHeight": 6,
+      "name": "6 tall 4 wide",
+      "price": 500,
+      "sku": "WG001",
+      "width": 4
+    },
+    {
+      "fenceHeight": 0,
+      "name": "5 tall 4 wide gate",
+      "price": 300,
+      "sku": "WG002",
+      "width": 4
+    },
+    {
+      "fenceHeight": 4,
+      "name": "4 tall 5 wide gate",
+      "price": 250,
+      "sku": "WG003",
+      "width": 5
+    },
+    {
+      "fenceHeight": 8,
+      "name": "8 tall 4 wide gate",
+      "price": 400,
+      "sku": "WG004",
+      "width": 4
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM007",
+      "width": 0
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM008",
+      "width": 0
+    }
+  ],
+  "pickets": [
+    {
+      "fenceHeight": 6,
+      "name": "JPC 7/8 in. x 7-1/4 in. x 6 ft - Standard Picket",
+      "price": 6.5,
+      "sku": "WP001",
+      "width": 7.25
+    },
+    {
+      "fenceHeight": 6,
+      "name": "INCS 23/32 in. x 7-1/2 in. x 6 ft",
+      "price": 5.87,
+      "sku": "WP002",
+      "width": 7
+    },
+    {
+      "fenceHeight": 6,
+      "name": "5/8 thick x 6\" x6' tall WRC - Budget Cedar Picket",
+      "price": 3.3,
+      "sku": "050226",
+      "width": 5.5
+    },
+    {
+      "fenceHeight": 6,
+      "name": "5/8 x 5.5\" x 6 ft. pressure treated - Budget Treated Picket",
+      "price": 2.99,
+      "sku": "WP004",
+      "width": 5.5
+    },
+    {
+      "fenceHeight": 6,
+      "name": "#4 Cedar Pickets 7/8 KD - Low Grade Cedar Picket",
+      "price": 7.5,
+      "sku": "WP005",
+      "width": 7
+    },
+    {
+      "fenceHeight": 8,
+      "name": "1x6x8 DE WRC actual 5/8\" - Eight Foot Tall",
+      "price": 8,
+      "sku": "WP006",
+      "width": 5.5
+    },
+    {
+      "fenceHeight": 6,
+      "name": "3/4 thick x 5.5\" x6' tall WRC - Bulk Stock Cedar Picket",
+      "price": 3.42,
+      "sku": "WP007",
+      "width": 5.5
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM001",
+      "width": 0
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM002",
+      "width": 0
+    }
+  ],
+  "posts": [
+    {
+      "fenceHeight": 6,
+      "name": "8' Postmaster",
+      "price": 20,
+      "sku": "WPM001"
+    },
+    {
+      "fenceHeight": 7,
+      "name": "10' Postmaster",
+      "price": 38,
+      "sku": "WPM002"
+    },
+    {
+      "fenceHeight": 8,
+      "name": "12' Postmaster",
+      "price": 55,
+      "sku": "WPM003"
+    },
+    {
+      "fenceHeight": 6,
+      "name": "8' tall 2-3/8 post w/ brackets",
+      "price": 33,
+      "sku": "WPM004"
+    },
+    {
+      "fenceHeight": 6,
+      "name": "8' Pressure Treated 4x4",
+      "price": 15,
+      "sku": "CUSTOM005"
+    },
+    {
+      "fenceHeight": 6,
+      "name": "8' Cedar 4x4",
+      "price": 45,
+      "sku": "CUSTOM006"
+    }
+  ],
+  "rails": [
+    {
+      "name": "pressure treated 2x4x8",
+      "price": 4,
+      "sku": "WR001",
+      "width": 8
+    },
+    {
+      "name": "#1 Grade rough cedar 2x4x8",
+      "price": 18,
+      "sku": "WR002",
+      "width": 8
+    },
+    {
+      "name": "#4 Rough cedar 2x4x8",
+      "price": 8,
+      "sku": "WR003",
+      "width": 8
+    },
+    {
+      "name": "Smooth cedar 2x4x8 Bulk",
+      "price": 5.36,
+      "sku": "WR004",
+      "width": 8
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM003",
+      "width": 0
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM004",
+      "width": 0
+    }
+  ]
+}

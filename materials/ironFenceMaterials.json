@@ -1,0 +1,247 @@
+{
+  "panels": [
+    {
+      "sku": "890842",
+      "name": "MT 8'L x 4'H 2R Maj Pnl Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 111.08,
+      "width": 8,
+      "fenceHeight": 4,
+      "railCount": 2
+    },
+    {
+      "sku": "890902",
+      "name": "MT 8'L x 4'H 3R Maj Pnl Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 122.12,
+      "width": 8,
+      "fenceHeight": 4,
+      "railCount": 3
+    },
+    {
+      "sku": "890852",
+      "name": "MT 8'L x 5'H 2R Maj Pnl Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 127.19,
+      "width": 8,
+      "fenceHeight": 5,
+      "railCount": 2
+    },
+    {
+      "sku": "890912",
+      "name": "MT 8'L x 5'H 3R Maj Pnl Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 140.06,
+      "width": 8,
+      "fenceHeight": 5,
+      "railCount": 3
+    },
+    {
+      "sku": "890922",
+      "name": "MT 8'L x 6'H 3R Maj Pnl Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 155.47,
+      "width": 8,
+      "fenceHeight": 6,
+      "railCount": 3
+    },
+    {
+      "sku": "N01796",
+      "name": "HGX 8'Lx4'H 3R Univ Pnl Blk 5/8\" x 18ga Pkt PB Rackable",
+      "price": 74.00,
+      "width": 8,
+      "fenceHeight": 5,
+      "railCount": 3
+    },
+    {
+      "sku": "CUSTOM001",
+      "name": "Custom Item",
+      "price": 0.00,
+      "width": 0,
+      "fenceHeight": 0,
+      "railCount": 0
+    },
+    {
+      "sku": "CUSTOM002",
+      "name": "Custom Item",
+      "price": 0.00,
+      "width": 0,
+      "fenceHeight": 0,
+      "railCount": 0
+    }
+  ],
+  "posts": [
+    {
+      "sku": "443382",
+      "name": "MT 2\"sq x 69\" 16ga Post Blk for 4' tall fence",
+      "price": 18.66,
+      "width": 2,
+      "fenceHeight": 4
+    },
+    {
+      "sku": "443402",
+      "name": "MT 2\"sq x 81\" 16ga Post Black for 5' tall fence",
+      "price": 21.38,
+      "width": 2,
+      "fenceHeight": 5
+    },
+    {
+      "sku": "443412",
+      "name": "MT 2\"sq x 93\" 16ga Post Black for 6' tall fence",
+      "price": 23.79,
+      "width": 2,
+      "fenceHeight": 6
+    },
+    {
+      "sku": "595832",
+      "name": "REM/HGX 2\"x72\"16g Pst wCap Blk for 4' tall fence",
+      "price": 17.93,
+      "width": 2,
+      "fenceHeight": 4
+    },
+    {
+      "sku": "652152",
+      "name": "REM/HGX 2\"x84\"16g Pst wCap Blk for 5' tall fence",
+      "price": 15.00,
+      "width": 2,
+      "fenceHeight": 5
+    },
+    {
+      "sku": "CUSTOM003",
+      "name": "Custom Item",
+      "price": 0.00,
+      "width": 0,
+      "fenceHeight": 0
+    },
+    {
+      "sku": "CUSTOM004",
+      "name": "Custom Item",
+      "price": 0.00,
+      "width": 0,
+      "fenceHeight": 0
+    }
+  ],
+  "brackets": [
+    {
+      "sku": "420252",
+      "name": "MT 2\" Univ Blvd Brkt Blk 2/bag f/2\" Post w/hdw",
+      "price": 4.64,
+      "quantity": 2
+    },
+    {
+      "sku": "902362",
+      "name": "MT 2\" Line Brkt Black 2/bag f/ 2\" posts w/hardware",
+      "price": 7.14,
+      "quantity": 2
+    },
+    {
+      "sku": "903862",
+      "name": "MT Flat Back Brkt Blk 2/bag",
+      "price": 5.10,
+      "quantity": 2
+    },
+    {
+      "sku": "421932",
+      "name": "MT Swivel Brkt Blk 2/bag f/2\" & 2 1/2\" Post w/Hdw",
+      "price": 14.17,
+      "quantity": 2
+    },
+    {
+      "sku": "011678",
+      "name": "HGX 2\" Univ Blvd Brkt Blk f/2\" Post w/Hdw",
+      "price": 6.00,
+      "quantity": 2
+    },
+    {
+      "sku": "011679",
+      "name": "HGX 2\" Line Brkt 1pair Blk f/2\" Post w/Hdw",
+      "price": 10.00,
+      "quantity": 2
+    },
+    {
+      "sku": "011680",
+      "name": "HGX 2\" Flat Back Brkt Blk f/2\" Post w/Hdw",
+      "price": 5.98,
+      "quantity": 2
+    },
+    {
+      "sku": "CUSTOM005",
+      "name": "Custom Item",
+      "price": 0.00,
+      "quantity": 2
+    },
+    {
+      "sku": "CUSTOM006",
+      "name": "Custom Item",
+      "price": 0.00,
+      "quantity": 2
+    }
+  ],
+  "gates": [
+    {
+      "sku": "894572",
+      "name": "MT 4'W x 4'H 3R Maj SWG Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 194.66,
+      "width": 4,
+      "fenceHeight": 4,
+      "railCount": 3
+    },
+    {
+      "sku": "894632",
+      "name": "MT 4'W x 5'H 3R Maj SWG Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 275.00,
+      "width": 4,
+      "fenceHeight": 5,
+      "railCount": 3
+    },
+    {
+      "sku": "894692",
+      "name": "MT 4'W x 6'H 3R Maj SWG Blk 5/8\" x 18ga Pkt PB 4\" Air",
+      "price": 300.00,
+      "width": 4,
+      "fenceHeight": 6,
+      "railCount": 3
+    },
+    {
+      "sku": "N01802",
+      "name": "HGX 4'Wx4'H 3R Univ SWG Blk 5/8\" x 18ga Pkt PB",
+      "price": 250.00,
+      "width": 4,
+      "fenceHeight": 4,
+      "railCount": 3
+    },
+    {
+      "sku": "CUSTOM007",
+      "name": "Custom Item",
+      "price": 0.00,
+      "width": 0,
+      "fenceHeight": 0,
+      "railCount": 0
+    },
+    {
+      "sku": "CUSTOM008",
+      "name": "Custom Item",
+      "price": 0.00,
+      "width": 0,
+      "fenceHeight": 0,
+      "railCount": 0
+    }
+  ],
+  "gateHardware": [
+    {
+      "sku": "N02864",
+      "name": "HGX Gate hardware",
+      "price": 53.23
+    },
+    {
+      "sku": "N02864",
+      "name": "REM/HGX Gt Hdw f/1.5\" Ends Blk w/Post Hinge f/2\" posts",
+      "price": 56.23
+    },
+    {
+      "sku": "CUSTOM009",
+      "name": "Custom Item",
+      "price": 0.00
+    },
+    {
+      "sku": "CUSTOM010",
+      "name": "Custom Item",
+      "price": 0.00
+    }
+  ]
+}

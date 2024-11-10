@@ -1,0 +1,27 @@
+{
+  "laborRates": {
+    "chain_link": {
+      "4": 5.0,
+      "5": 6.0,
+      "6": 7.0,
+      "8": 9.0
+    },
+    "iron_fence": {
+      "4": 6.5,
+      "5": 8.0,
+      "6": 8.0,
+      "8": 12.0
+    },
+    "wood_privacy": {
+      "6": 7.5,
+      "8": 12.0,
+      "4": 8.0,
+      "5": 8.0
+    }
+  },
+  "overheadRates": {
+    "profitMargin": 0.77,
+    "taxRate": 0.08,
+    "wasteFactor": 1.1
+  }
+}

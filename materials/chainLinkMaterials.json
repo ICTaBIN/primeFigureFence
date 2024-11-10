@@ -1,0 +1,485 @@
+{
+  "barbWire": [
+    {
+      "name": "3 Strand barb wire",
+      "price": 150,
+      "sku": "CLRE001",
+      "width": 1.375
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM010",
+      "width": 0
+    }
+  ],
+  "braceBands": [
+    {
+      "fenceHeight": 4,
+      "name": "2 3/8 brace band",
+      "price": 1.5,
+      "qtyPerTerminal": 2,
+      "sku": "CLBB001",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 5,
+      "name": "2 3/8 brace band",
+      "price": 1.5,
+      "qtyPerTerminal": 2,
+      "sku": "CLBB002",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 6,
+      "name": "2 3/8 brace band",
+      "price": 1.5,
+      "qtyPerTerminal": 2,
+      "sku": "CLBB003",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "qtyPerTerminal": 0,
+      "sku": "CUSTOM022",
+      "width": 0
+    }
+  ],
+  "concrete": [
+    {
+      "name": "50lbs fast set",
+      "price": 7,
+      "sku": "Wc001",
+      "width": 8
+    },
+    {
+      "name": "80lb standard",
+      "price": 18,
+      "sku": "Wc002",
+      "width": 8
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM004",
+      "width": 0
+    },
+    {
+      "name": "",
+      "price": 0,
+      "sku": "",
+      "width": 0
+    }
+  ],
+  "hogTies": [
+    {
+      "name": "12.5 ga",
+      "price": 4.44,
+      "sku": "CLHT001"
+    },
+    {
+      "name": "9 ga",
+      "price": 6.5,
+      "sku": "CLHT002"
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM017"
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM018"
+    }
+  ],
+  "linePostCaps": [
+    {
+      "name": "1 5/8 line post EYE CAP",
+      "price": 0.95,
+      "sku": "CLPC001",
+      "width": 1.625
+    },
+    {
+      "name": "1 7/8 line post EYE CAP",
+      "price": 1.63,
+      "sku": "CLPC002",
+      "width": 1.875
+    },
+    {
+      "name": "2 3/8 line post EYE CAP",
+      "price": 2.5,
+      "sku": "CLPC003",
+      "width": 2.375
+    },
+    {
+      "name": "1-7/8 barb arm",
+      "price": 4.54,
+      "sku": "CLBA001",
+      "width": 1.875
+    },
+    {
+      "name": "2-3/8 barb arm",
+      "price": 4.86,
+      "sku": "CLBA002",
+      "width": 2.375
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM015",
+      "width": 0
+    }
+  ],
+  "linePosts": [
+    {
+      "fenceHeight": 6,
+      "name": "2 3/8\" 16ga line 96\"",
+      "price": 20.35,
+      "sku": "CLP001",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 4,
+      "name": "1 5/8\" 16ga line 5'6\"",
+      "price": 8.58,
+      "sku": "CLP002",
+      "width": 1.625
+    },
+    {
+      "fenceHeight": 5,
+      "name": "1 5/8\" 16ga line 6'6\"",
+      "price": 10.14,
+      "sku": "CLP003",
+      "width": 1.625
+    },
+    {
+      "fenceHeight": 6,
+      "name": "1 5/8\" 16ga line 7'6\"",
+      "price": 11.71,
+      "sku": "CLP004",
+      "width": 1.625
+    },
+    {
+      "fenceHeight": 6,
+      "name": "1 7/8\" cq20 line 96\"",
+      "price": 19.56,
+      "sku": "CLP005",
+      "width": 1.875
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM003",
+      "width": 0
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM004",
+      "width": 0
+    }
+  ],
+  "mesh": [
+    {
+      "fenceHeight": 4,
+      "name": "48\" 11.5 ga mesh",
+      "price": 115,
+      "sku": "CL001"
+    },
+    {
+      "fenceHeight": 4,
+      "name": "48\" 9 ga mesh",
+      "price": 159.5,
+      "sku": "CL002"
+    },
+    {
+      "fenceHeight": 5,
+      "name": "60\" 11.5 ga",
+      "price": 143.5,
+      "sku": "CL003"
+    },
+    {
+      "fenceHeight": 5,
+      "name": "60\" 9ga mesh",
+      "price": 199.5,
+      "sku": "CL004"
+    },
+    {
+      "fenceHeight": 6,
+      "name": "72\" 11.5 ga",
+      "price": 182,
+      "sku": "CL005"
+    },
+    {
+      "fenceHeight": 6,
+      "name": "72\" 9ga mesh",
+      "price": 202.5,
+      "sku": "CL006"
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM001"
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM002"
+    }
+  ],
+  "tensionBands": [
+    {
+      "fenceHeight": 4,
+      "name": "2 3/8 tension band",
+      "price": 1.25,
+      "qtyPerTerminal": 3,
+      "sku": "CLTB001",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 5,
+      "name": "2 3/8 tension band",
+      "price": 1.25,
+      "qtyPerTerminal": 4,
+      "sku": "CLTB002",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 6,
+      "name": "2 3/8 tension band",
+      "price": 1.25,
+      "qtyPerTerminal": 4,
+      "sku": "CLTB003",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "qtyPerTerminal": 0,
+      "sku": "CUSTOM021",
+      "width": 0
+    },
+    {
+      "fenceHeight": 6,
+      "name": "3\" tension band",
+      "price": 2,
+      "qtyPerTerminal": 4,
+      "sku": "custom",
+      "width": 3
+    }
+  ],
+  "tensionBars": [
+    {
+      "fenceHeight": 4,
+      "name": "48\"",
+      "price": 5,
+      "sku": "custom125",
+      "width": "5/8"
+    },
+    {
+      "fenceHeight": 5,
+      "name": "60\"",
+      "price": 6,
+      "sku": "custom126",
+      "width": "5/8"
+    },
+    {
+      "fenceHeight": 6,
+      "name": "72\"",
+      "price": 5,
+      "sku": "CUSTOM009",
+      "width": 0
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM010",
+      "width": 0
+    }
+  ],
+  "tensionWire": [
+    {
+      "length": 100,
+      "name": "UPC 9ga Tension Wire 10lb CL",
+      "price": 12.63,
+      "sku": "087025"
+    },
+    {
+      "length": 100,
+      "name": "UPC 11ga Tension Wire 10lb CL",
+      "price": 8.75,
+      "sku": "CLTW002"
+    },
+    {
+      "length": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM019"
+    },
+    {
+      "length": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM020"
+    }
+  ],
+  "terminalCaps": [
+    {
+      "name": "2 3/8 terminal DOME CAP",
+      "price": 1.05,
+      "sku": "CLTC001",
+      "width": 2.375
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM011",
+      "width": 0
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM012",
+      "width": 0
+    }
+  ],
+  "terminalPosts": [
+    {
+      "fenceHeight": 4,
+      "name": "2 3/8\" 16ga term",
+      "price": 11.62,
+      "sku": "CLT001",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 6,
+      "name": "2 3/8\" .095 term 96\"",
+      "price": 25.88,
+      "sku": "CLT002",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 6,
+      "name": "2 3/8\" sc40 term 96\"",
+      "price": 31.69,
+      "sku": "CLT003",
+      "width": 2.375
+    },
+    {
+      "fenceHeight": 6,
+      "name": "2 7/8\" sc40 term 96\"",
+      "price": 55.05,
+      "sku": "CLT004",
+      "width": 2.875
+    },
+    {
+      "fenceHeight": 6,
+      "name": "4\" sch40 term 96\"",
+      "price": 76.66,
+      "sku": "CLT005",
+      "width": 4
+    },
+    {
+      "fenceHeight": 6,
+      "name": "4\" sch40 term 24'",
+      "price": 258.24,
+      "sku": "CLT006",
+      "width": 4
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM005",
+      "width": 0
+    },
+    {
+      "fenceHeight": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM006",
+      "width": 0
+    }
+  ],
+  "topRail": [
+    {
+      "length": 21,
+      "name": "1 3/8 top rail 16ga",
+      "price": 16.17,
+      "sku": "030505",
+      "width": 1.375
+    },
+    {
+      "length": 21,
+      "name": "1 5/8 top rail sch20",
+      "price": 38.64,
+      "sku": "CLR002",
+      "width": 1.625
+    },
+    {
+      "length": 21,
+      "name": "1 5/8 top rail sch40",
+      "price": 49.98,
+      "sku": "CLR003",
+      "width": 1.625
+    },
+    {
+      "length": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM007",
+      "width": 0
+    },
+    {
+      "length": 0,
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM008",
+      "width": 0
+    }
+  ],
+  "topRailEnds": [
+    {
+      "name": "1 3/8 top rail END",
+      "price": 1.09,
+      "sku": "CLRE001",
+      "width": 1.375
+    },
+    {
+      "name": "1 5/8 top rail END",
+      "price": 1.71,
+      "sku": "CLRE002",
+      "width": 1.625
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM009",
+      "width": 0
+    },
+    {
+      "name": "Custom Item",
+      "price": 0,
+      "sku": "CUSTOM010",
+      "width": 0
+    }
+  ],
+  "trussBars": [
+    {
+      "length": "12'",
+      "name": "Truss bar w/ tightener",
+      "price": 12,
+      "sku": "custom",
+      "width": "5/8"
+    }
+  ]
+}

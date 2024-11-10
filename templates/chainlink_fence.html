@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+
+{% block title %}Chainlink Fence Calculator{% endblock %}
+
+{% block styles %}
+    <link rel="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/chainLink-fence.css') }}" rel="stylesheet">
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .back-button {
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .summary-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .summary-item label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .summary-item input,
+  .summary-item select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .tax-controls {
+    margin-bottom: 20px;
+  }
+
+  .tax-options {
+    display: flex;
+    gap: 20px;
+  }
+
+  .materials-section {
+    margin-bottom: 30px;
+    overflow-x: auto;
+  }
+
+  #materialsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  #materialsTable th,
+  #materialsTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+
+  .quantity-input {
+    width: 80px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .button-group button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+
+  .button-group button:hover {
+    background-color: #0056b3;
+  }
+
+  .calculations-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .rates-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .rate-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rate-item label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .rate-item input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .totals-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .total-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .final-total {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: right;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <a href="#" class="back-button" onclick="window.history.back(); return false;">← Back to Drawing Tool</a>
+
+  <h1>Chainlink Fence Calculator</h1>
+
+  <div class="summary-grid">
+    <div class="summary-item">
+      <label for="totalLinearFeet">Total Linear Feet</label>
+      <input type="number" id="totalLinearFeet" min="0" value="0">
+    </div>
+
+    <div class="summary-item">
+      <label for="height">Fence Height (ft)</label>
+      <select id="height">
+        <option value="4">4 ft</option>
+        <option value="5">5 ft</option>
+        <option value="6">6 ft</option>
+        <option value="8">8 ft</option>
+      </select>
+    </div>
+
+    <div class="summary-item">
+      <label for="totalGates">Gates</label>
+      <input type="number" id="totalGates" min="0" value="0">
+    </div>
+
+    <div class="summary-item">
+      <label for="totalCornerPosts">Corner Posts</label>
+      <input type="number" id="totalCornerPosts" min="0" value="0">
+    </div>
+
+    <div class="summary-item">
+      <label for="totalEndPosts">End Posts</label>
+      <input type="number" id="totalEndPosts" min="0" value="0">
+    </div>
+
+    <div class="summary-item">
+      <label for="totalLinePosts">Line Posts</label>
+      <input type="number" id="totalLinePosts" min="0" value="0">
+    </div>
+  </div>
+
+  <div class="tax-controls">
+    <div class="tax-options">
+      <label>
+        <input type="checkbox" id="materialsTaxable">
+        Materials Taxable
+      </label>
+      <label>
+        <input type="checkbox" id="laborTaxable">
+        Labor Taxable
+      </label>
+    </div>
+  </div>
+
+<div class="materials-section">
+    <table id="materialsTable">
+      <thead>
+        <tr>
+          <th>QTY</th>
+          <th>Item</th>
+          <th>Style/Type</th>
+          <th>Unit Price</th>
+          <th>Tax</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Concrete -->
+        <tr>
+          <td><input type="number" id="concreteQty" class="quantity-input" min="0" value="0"></td>
+          <td>Concrete</td>
+          <td><select id="concreteSelect"></select></td>
+          <td id="concretePrice">$0.00</td>
+          <td><input type="checkbox" id="concreteTax" class="tax-checkbox"></td>
+          <td id="concreteTotal">$0.00</td>
+        </tr>
+
+        <!-- Terminal Posts -->
+        <tr>
+          <td><input type="number" id="terminalPostsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Terminal Posts</td>
+          <td><select id="terminalPostsSelect"></select></td>
+          <td id="terminalPostsPrice">$0.00</td>
+          <td><input type="checkbox" id="terminalPostsTax" class="tax-checkbox"></td>
+          <td id="terminalPostsTotal">$0.00</td>
+        </tr>
+
+        <!-- Terminal Caps -->
+        <tr>
+          <td><input type="number" id="terminalCapsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Terminal Caps</td>
+          <td><select id="terminalCapsSelect"></select></td>
+          <td id="terminalCapsPrice">$0.00</td>
+          <td><input type="checkbox" id="terminalCapsTax" class="tax-checkbox"></td>
+          <td id="terminalCapsTotal">$0.00</td>
+        </tr>
+
+        <!-- Line Posts -->
+        <tr>
+          <td><input type="number" id="linePostsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Line Posts</td>
+          <td><select id="linePostsSelect"></select></td>
+          <td id="linePostsPrice">$0.00</td>
+          <td><input type="checkbox" id="linePostsTax" class="tax-checkbox"></td>
+          <td id="linePostsTotal">$0.00</td>
+        </tr>
+
+        <!-- Line Post Caps -->
+        <tr>
+          <td><input type="number" id="linePostCapsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Line Post Caps</td>
+          <td><select id="linePostCapsSelect"></select></td>
+          <td id="linePostCapsPrice">$0.00</td>
+          <td><input type="checkbox" id="linePostCapsTax" class="tax-checkbox"></td>
+          <td id="linePostCapsTotal">$0.00</td>
+        </tr>
+
+        <!-- Top Rail -->
+        <tr>
+          <td><input type="number" id="topRailQty" class="quantity-input" min="0" value="0"></td>
+          <td>Top Rail</td>
+          <td><select id="topRailSelect"></select></td>
+          <td id="topRailPrice">$0.00</td>
+          <td><input type="checkbox" id="topRailTax" class="tax-checkbox"></td>
+          <td id="topRailTotal">$0.00</td>
+        </tr>
+
+        <!-- Mesh -->
+        <tr>
+          <td><input type="number" id="meshQty" class="quantity-input" min="0" value="0"></td>
+          <td>Mesh</td>
+          <td><select id="meshSelect"></select></td>
+          <td id="meshPrice">$0.00</td>
+          <td><input type="checkbox" id="meshTax" class="tax-checkbox"></td>
+          <td id="meshTotal">$0.00</td>
+        </tr>
+
+        <!-- Tension Bars -->
+        <tr>
+          <td><input type="number" id="tensionBarsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Tension Bars</td>
+          <td><select id="tensionBarsSelect"></select></td>
+          <td id="tensionBarsPrice">$0.00</td>
+          <td><input type="checkbox" id="tensionBarsTax" class="tax-checkbox"></td>
+          <td id="tensionBarsTotal">$0.00</td>
+        </tr>
+
+        <!-- Tension Bands -->
+        <tr>
+          <td><input type="number" id="tensionBandsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Tension Bands</td>
+          <td><select id="tensionBandsSelect"></select></td>
+          <td id="tensionBandsPrice">$0.00</td>
+          <td><input type="checkbox" id="tensionBandsTax" class="tax-checkbox"></td>
+          <td id="tensionBandsTotal">$0.00</td>
+        </tr>
+
+        <!-- Brace Bands -->
+        <tr>
+          <td><input type="number" id="braceBandsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Brace Bands</td>
+          <td><select id="braceBandsSelect"></select></td>
+          <td id="braceBandsPrice">$0.00</td>
+          <td><input type="checkbox" id="braceBandsTax" class="tax-checkbox"></td>
+          <td id="braceBandsTotal">$0.00</td>
+        </tr>
+
+        <!-- Top Rail Ends -->
+        <tr>
+          <td><input type="number" id="topRailEndsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Top Rail Ends</td>
+          <td><select id="topRailEndsSelect"></select></td>
+          <td id="topRailEndsPrice">$0.00</td>
+          <td><input type="checkbox" id="topRailEndsTax" class="tax-checkbox"></td>
+          <td id="topRailEndsTotal">$0.00</td>
+        </tr>
+
+        <!-- Tension Wire -->
+        <tr>
+          <td><input type="number" id="tensionWireQty" class="quantity-input" min="0" value="0"></td>
+          <td>Tension Wire</td>
+          <td><select id="tensionWireSelect"></select></td>
+          <td id="tensionWirePrice">$0.00</td>
+          <td><input type="checkbox" id="tensionWireTax" class="tax-checkbox"></td>
+          <td id="tensionWireTotal">$0.00</td>
+        </tr>
+
+        <!-- Hog Ties -->
+        <tr>
+          <td><input type="number" id="hogTiesQty" class="quantity-input" min="0" value="0"></td>
+          <td>Hog Ties</td>
+          <td><select id="hogTiesSelect"></select></td>
+          <td id="hogTiesPrice">$0.00</td>
+          <td><input type="checkbox" id="hogTiesTax" class="tax-checkbox"></td>
+          <td id="hogTiesTotal">$0.00</td>
+        </tr>
+
+        <!-- Truss Bars-->
+        <tr>
+          <td><input type="number" id="trussBarsQty" class="quantity-input" min="0" value="0"></td>
+          <td>Truss Bars</td>
+          <td><select id="trussBarsSelect"></select></td>
+          <td id="trussBarsPrice">$0.00</td>
+          <td><input type="checkbox" id="trussBarsTax" class="tax-checkbox"></td>
+          <td id="trussBarsTotal">$0.00</td>
+        </tr>
+
+        <!-- Barb Wire -->
+        <tr>
+          <td><input type="number" id="barbWireQty" class="quantity-input" min="0" value="0"></td>
+          <td>Barb Wire</td>
+          <td><select id="barbWireSelect"></select></td>
+          <td id="barbWirePrice">$0.00</td>
+          <td><input type="checkbox" id="barbWireTax" class="tax-checkbox"></td>
+          <td id="barbWireTotal">$0.00</td>
+        </tr>
+
+
+      </tbody>
+    </table>
+
+    <div class="button-group">
+      <button id="addCustomRow">+ Add Custom Item</button>
+      <button id="save-template">Save Template</button>
+      <button id="load-template">Load Template</button>
+    </div>
+</div>
+  <div class="calculations-wrapper">
+    <div class="rates-section">
+      <div class="rate-item">
+        <label for="laborRate">Labor Rate (per ft)</label>
+        <div class="rate-input-group">
+          <input type="number" id="laborRate" min="0" step="0.01" value="0.00">
+        </div>
+      </div>
+
+      <div class="rate-item">
+        <label for="taxRate">Tax Rate (%)</label>
+        <input type="number" id="taxRate" min="0" step="0.1" value="0.0">
+      </div>
+
+      <div class="rate-item">
+        <label for="marginPercent">Margin Percent</label>
+        <input type="number" id="marginPercent" min="0" step="0.1" value="0.0">
+      </div>
+    </div>
+
+    <div class="totals-section">
+      <div class="total-item">
+        <span class="total-label">Material Cost</span>
+        <div class="total-amount">$<span id="materialCost">0.00</span></div>
+      </div>
+
+      <div class="total-item">
+        <span class="total-label">Labor Cost</span>
+        <div class="total-amount">$<span id="laborCost">0.00</span></div>
+      </div>
+
+      <div class="total-item">
+        <span class="total-label">Overhead</span>
+        <div class="total-amount">$<span id="profitAmount">0.00</span></div>
+      </div>
+
+      <div class="total-item">
+        <span class="total-label">Tax</span>
+        <div class="total-amount">$<span id="taxCost">0.00</span></div>
+      </div>
+
+      <div class="final-total">
+        Total Cost: $<span id="totalCost">0.00</span>
+      </div>
+    </div>
+  </div>
+     <button id="viewProposalBtn">View Proposal</button>
+    <canvas id="drawing-preview"></canvas>
+
+  <!-- Hidden inputs for drawing data -->
+  <input type="hidden" id="scale" value="1">
+  <input type="hidden" id="postSpacing" value="8">
+  <input type="hidden" id="drawingData" value="">
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/resize.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js/drawing.js') }}"></script>
+<script src="/static/js/chainlink-fence.js"></script>
+<script type="module" src="{{ url_for('static', filename='js/templates.js') }}"></script>
+
+
+{% endblock %}

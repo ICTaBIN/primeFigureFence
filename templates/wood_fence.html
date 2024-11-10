@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Wood Fence Calculator{% endblock %}
+
+{% block styles %}
+<link rel="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/wood-fence.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="#" onclick="window.history.back(); return false;" class="back-button">← Back to Drawing Tool</a>
+    <h1>Wood Fence Calculator</h1>
+
+    <div class="summary-grid">
+        <div class="summary-item">
+            <label for="totalLinearFeet">Total Linear Feet</label>
+            <input type="number" id="totalLinearFeet" min="0" step="0.1" readonly>
+        </div>
+        <div class="summary-item">
+            <label for="height">Fence Height (ft)</label>
+            <input type="number" id="height" min="0" readonly>
+        </div>
+        <div class="summary-item">
+            <label for="totalGates">Gates</label>
+            <input type="number" id="totalGates" min="0" readonly>
+        </div>
+        <div class="summary-item">
+            <label for="totalCornerPosts">Corner Posts</label>
+            <input type="number" id="totalCornerPosts" min="0" readonly>
+        </div>
+        <div class="summary-item">
+            <label for="totalEndPosts">End Posts</label>
+            <input type="number" id="totalEndPosts" min="0" readonly>
+        </div>
+        <div class="summary-item">
+            <label for="totalLinePosts">Line Posts</label>
+            <input type="number" id="totalLinePosts" min="0" readonly>
+        </div>
+    </div>
+
+    <div class="tax-controls">
+        <div class="tax-options">
+            <label class="tax-option">
+                <input type="checkbox" id="materialsTaxable" >
+                Materials Taxable
+            </label>
+            <label class="tax-option">
+                <input type="checkbox" id="laborTaxable" >
+                Labor Taxable
+            </label>
+        </div>
+    </div>
+
+    <div class="materials-section">
+        <table id="materialsTable">
+            <thead>
+                <tr>
+                    <th>QTY</th>
+                    <th>Item</th>
+                    <th>Style/Type</th>
+                    <th>Unit Price</th>
+                    <th>Tax</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table content will be added dynamically -->
+            </tbody>
+        </table>
+
+        <div class="button-group">
+            <button id="addCustomRow" class="btn-primary">+ Add Custom Item</button>
+            <button id="save-template" class="btn-primary">Save Template</button>
+            <button id="load-template" class="btn-primary">Load Template</button>
+        </div>
+    </div>
+
+    <div class="calculations-wrapper">
+        <div class="rates-section">
+            <div class="rate-item">
+                <label for="laborRate">Labor Rate (per ft)</label>
+                <div class="rate-input-group">
+                    <input type="number" id="laborRate" value="7.5" min="0" step="0.1">
+                </div>
+            </div>
+            <div class="rate-item">
+                <label for="taxRate">Tax Rate (%)</label>
+                <input type="number" id="taxRate" value="8" min="0" max="100" step="0.1">
+            </div>
+            <div class="rate-item">
+                <label for="marginPercent">Margin Percent</label>
+                <input type="number" id="marginPercent" value="23" min="0" max="100">
+            </div>
+        </div>
+
+        <div class="totals-section">
+            <div class="total-item">
+                <strong>Material Cost</strong>
+                <div>$<span id="materialCost">0.00</span></div>
+            </div>
+            <div class="total-item">
+                <strong>Labor Cost</strong>
+                <div>$<span id="laborCost">0.00</span></div>
+            </div>
+            <div class="total-item">
+                <strong>Overhead</strong>
+                <div>$<span id="profitAmount">0.00</span></div>
+            </div>
+            <div class="total-item">
+                <strong>Tax</strong>
+                <div>$<span id="taxCost">0.00</span></div>
+            </div>
+            <div class="final-total">
+                Total Cost: $<span id="totalCost">0.00</span>
+            </div>
+        </div>
+    </div>
+    <button id="convertToProposal">Convert to Proposal</button>
+    <input type="hidden" id="customerId" value="12345">
+
+    <canvas id="drawing-preview"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+ <script src="{{ url_for('static', filename='js/resize.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js/drawing.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wood-fence.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/templates.js') }}"></script>
+
+    <script>
+    document.getElementById('convertToProposal').addEventListener('click', function () {
+        // Collect relevant data from the page
+        const height = document.getElementById('height').value;
+        const stylePickets = document.getElementById('picketsSelect')?.options[document.getElementById('picketsSelect').selectedIndex]?.text || '';
+        const stylePosts = document.getElementById('postsSelect')?.options[document.getElementById('postsSelect').selectedIndex]?.text || '';
+        const styleRails = document.getElementById('railsSelect')?.options[document.getElementById('railsSelect').selectedIndex]?.text || '';
+        const styleFasteners = document.getElementById('fastenersSelect')?.options[document.getElementById('fastenersSelect').selectedIndex]?.text || '';
+        const styleGates = document.getElementById('gatesSelect')?.options[document.getElementById('gatesSelect').selectedIndex]?.text || '';
+
+        // Collect other data from the page
+        const gates = document.getElementById('totalGates').value;
+        const totalLinearFeet = document.getElementById('totalLinearFeet').value;
+        const cornerPosts = document.getElementById('totalCornerPosts').value;
+        const endPosts = document.getElementById('totalEndPosts').value;
+        const linePosts = document.getElementById('totalLinePosts').value;
+        const materialCost = document.getElementById('materialCost').textContent;
+        const laborCost = document.getElementById('laborCost').textContent;
+        const taxCost = document.getElementById('taxCost').textContent;
+        const totalCost = document.getElementById('totalCost').textContent;
+
+        // Calculate subtotal (Labor + Material)
+        const subtotal = parseFloat(materialCost) + parseFloat(laborCost);
+
+        // Get the fence layout drawing from the canvas as a Base64 image
+        const canvas = document.getElementById('drawing-preview');
+        const drawingDataUrl = canvas.toDataURL('image/png'); // Convert canvas to Base64 image
+
+        // Prepare the data payload
+        const data = {
+                customer_id: document.getElementById('customerId').value, // Add this line
+
+            height,
+            style: {
+                pickets: stylePickets,
+                posts: stylePosts,
+                rails: styleRails,
+                fasteners: styleFasteners,
+                gates: styleGates
+            },
+            gates,
+            totalLinearFeet,
+            cornerPosts,
+            endPosts,
+            linePosts,
+            materialCost: parseFloat(materialCost).toFixed(2),
+            laborCost: parseFloat(laborCost).toFixed(2),
+            subtotal: subtotal.toFixed(2),
+            tax: parseFloat(taxCost).toFixed(2),
+            total: parseFloat(totalCost).toFixed(2),
+            drawing: drawingDataUrl // Include the drawing as a Base64 image
+        };
+
+        // Send data to the server using fetch
+        fetch('/create_proposal', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(responseData => {
+            // Redirect to the proposal page after data submission
+            window.location.href = `/proposal/${responseData.proposal_id}`;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+{% endblock %}

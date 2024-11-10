@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer List</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            color: #4f46e5;
+            text-align: center;
+        }
+        .customer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .customer-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .customer-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #4f46e5;
+        }
+        .customer-info {
+            margin-bottom: 1rem;
+        }
+        .customer-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .button:hover {
+            background-color: #4338ca;
+        }
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← Back to Dashboard</a>
+    <h1>Customer List</h1>
+    <div class="customer-grid" id="customerGrid">
+        <!-- Customers will be loaded here dynamically -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/customers');
+                const customers = await response.json();
+
+                const customerGrid = document.getElementById('customerGrid');
+
+                Object.entries(customers).forEach(([id, customer]) => {
+                    const card = document.createElement('div');
+                    card.className = 'customer-card';
+                    card.innerHTML = `
+                        <h3>${customer.name}</h3>
+                        <div class="customer-info">
+                            <p><strong>Address:</strong> ${customer.address}</p>
+                            <p><strong>Phone:</strong> ${customer.phone}</p>
+                            <p><strong>Email:</strong> ${customer.email}</p>
+                        </div>
+                        <div class="customer-actions">
+                            <button class="button" onclick="selectCustomer('${id}')">Select Customer</button>
+                            <button class="button" onclick="viewProposals('${id}')">View Proposals</button>
+                        </div>
+                    `;
+                    customerGrid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading customers:', error);
+            }
+        });
+
+        function selectCustomer(customerId) {
+            localStorage.setItem('customer_id', customerId);
+            window.location.href = '/drawingtool';
+        }
+
+        function viewProposals(customerId) {
+            window.location.href = `/customer_proposals/${customerId}`;
+        }
+    </script>
+</body>
+</html>

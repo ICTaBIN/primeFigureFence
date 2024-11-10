@@ -1,0 +1,299 @@
+{
+  "Cedar Special": [
+    {
+      "type": "Concrete",
+      "styleType": "Wc001",
+      "quantity": 31,
+      "unitPrice": 7,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Posts",
+      "styleType": "WPM001",
+      "quantity": 31,
+      "unitPrice": 20,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Rails",
+      "styleType": "WR004",
+      "quantity": 93,
+      "unitPrice": 5.36,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Pickets",
+      "styleType": "WP007",
+      "quantity": 526,
+      "unitPrice": 3.42,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Fasteners",
+      "styleType": "WF001",
+      "quantity": 5,
+      "unitPrice": 37.5,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Gates",
+      "styleType": "WG001",
+      "quantity": 1,
+      "unitPrice": 300,
+      "isTaxable": false,
+      "isCustom": false
+    }
+  ],
+  "no tax": [
+    {
+      "type": "Concrete",
+      "styleType": "Wc001",
+      "quantity": 21,
+      "unitPrice": 7,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Posts",
+      "styleType": "WPM001",
+      "quantity": 21,
+      "unitPrice": 20,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Rails",
+      "styleType": "WR004",
+      "quantity": 63,
+      "unitPrice": 5.36,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Pickets",
+      "styleType": "WP007",
+      "quantity": 351,
+      "unitPrice": 3.42,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Fasteners",
+      "styleType": "WF001",
+      "quantity": 3,
+      "unitPrice": 37.5,
+      "isTaxable": false,
+      "isCustom": false
+    },
+    {
+      "type": "Gates",
+      "styleType": "WG001",
+      "quantity": 1,
+      "unitPrice": 300,
+      "isTaxable": false,
+      "isCustom": false
+    }
+  ],
+  "with tax": [
+    {
+      "type": "Concrete",
+      "styleType": "Wc001",
+      "quantity": 58,
+      "unitPrice": 7,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Hog Ties",
+      "styleType": "CLHT001",
+      "quantity": 295,
+      "unitPrice": 4.44,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Line Posts",
+      "styleType": "CLP001",
+      "quantity": 53,
+      "unitPrice": 20.35,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Terminal Posts",
+      "styleType": "CLT001",
+      "quantity": 5,
+      "unitPrice": 11.62,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Mesh",
+      "styleType": "CL005",
+      "quantity": 9,
+      "unitPrice": 182,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Tension Wire",
+      "styleType": "087025",
+      "quantity": 5,
+      "unitPrice": 12.63,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Top Rail",
+      "styleType": "030505",
+      "quantity": 22,
+      "unitPrice": 16.17,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Line Post Caps",
+      "styleType": "CLPC001",
+      "quantity": 53,
+      "unitPrice": 0.95,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Terminal Caps",
+      "styleType": "CLTC001",
+      "quantity": 5,
+      "unitPrice": 1.05,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Top Rail Ends",
+      "styleType": "CLRE001",
+      "quantity": 10,
+      "unitPrice": 1.09,
+      "isTaxable": true,
+      "isCustom": false
+    }
+  ],
+  "Barb wire": [
+    {
+      "type": "Concrete",
+      "styleType": "Wc001",
+      "quantity": 47,
+      "unitPrice": 7,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Terminal Posts",
+      "styleType": "CLT003",
+      "quantity": 7,
+      "unitPrice": 31.69,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Terminal Caps",
+      "styleType": "CLTC001",
+      "quantity": 7,
+      "unitPrice": 1.05,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Line Posts",
+      "styleType": "CLP005",
+      "quantity": 40,
+      "unitPrice": 19.56,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Line Post Caps",
+      "styleType": "CLBA001",
+      "quantity": 40,
+      "unitPrice": 4.54,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Top Rail",
+      "styleType": "CLR002",
+      "quantity": 17,
+      "unitPrice": 38.64,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Mesh",
+      "styleType": "CL005",
+      "quantity": 7,
+      "unitPrice": 182,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Tension Bars",
+      "styleType": "CUSTOM009",
+      "quantity": 0,
+      "unitPrice": 5,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Tension Bands",
+      "styleType": "CLTB001",
+      "quantity": 28,
+      "unitPrice": 1.25,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Brace Bands",
+      "styleType": "CLBB001",
+      "quantity": 14,
+      "unitPrice": 1.5,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Top Rail Ends",
+      "styleType": "CLRE002",
+      "quantity": 11,
+      "unitPrice": 1.71,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Tension Wire",
+      "styleType": "087025",
+      "quantity": 4,
+      "unitPrice": 12.63,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Hog Ties",
+      "styleType": "CLHT001",
+      "quantity": 231,
+      "unitPrice": 4.44,
+      "isTaxable": true,
+      "isCustom": false
+    },
+    {
+      "type": "Custom Item",
+      "name": "Barb Wire",
+      "description": "",
+      "unitPrice": 25,
+      "quantity": 0,
+      "isTaxable": false,
+      "isCustom": true
+    }
+  ]
+}
