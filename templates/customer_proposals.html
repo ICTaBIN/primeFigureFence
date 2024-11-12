@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Proposals</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2 {
+            color: #4f46e5;
+        }
+        .customer-info {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .proposals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        .proposal-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .proposal-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #4f46e5;
+        }
+        .button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .button:hover {
+            background-color: #4338ca;
+        }
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'customer_list' %}" class="back-button">← Back to Customer List</a>
+
+    <h1>Customer Proposals</h1>
+
+    <div class="customer-info">
+        <h2>{{ customer.name }}</h2>
+        <p><strong>Address:</strong> {{ customer.address }}</p>
+        <p><strong>Phone:</strong> {{ customer.phone }}</p>
+        <p><strong>Email:</strong> {{ customer.email }}</p>
+    </div>
+
+    <div class="proposals-grid">
+        {% for proposal_id, proposal in proposals.items() %}
+        <div class="proposal-card">
+            <h3>Proposal #{{ proposal_id[:8] }}</h3>
+            <p><strong>Fence Height:</strong> {{ proposal.height }}ft</p>
+            <p><strong>Total Length:</strong> {{ proposal.totalLinearFeet }}ft</p>
+            <p><strong>Total Cost:</strong> ${{ proposal.total }}</p>
+            <a href="/proposal/{{ proposal_id }}" class="button">View Proposal</a>
+        </div>
+        {% else %}
+        <p>No proposals found for this customer.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

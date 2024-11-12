@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --success: #059669;
+            --success-hover: #047857;
+            --danger: #dc2626;
+            --danger-hover: #b91c1c;
+            --background: #eef2ff;
+            --card: #ffffff;
+            --text: #1e1b4b;
+            --text-secondary: #4338ca;
+            --border: #c7d2fe;
+            --panel-bg-left: #e0e7ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .dropdown-container {
+            margin-bottom: 1rem;
+            background: var(--card);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+        }
+
+        .dropdown-container label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            background-color: var(--card);
+            transition: all 0.2s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .category-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: var(--panel-bg-left);
+            border-radius: 0.5rem;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            background-color: var(--card);
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .actions button {
+            background: var(--danger);
+            color: white;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .actions button:hover {
+            background: var(--danger-hover);
+        }
+
+        .add-button {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        .add-button:hover {
+            background: var(--success-hover);
+        }
+
+        input {
+            padding: 0.5rem;
+            border: 2px solid var(--border);
+            border-radius: 0.4rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+            background-color: var(--card);
+            width: 100%;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pricing Data Manager</h1>
+
+        <div class="dropdown-container">
+            <label for="file-select">Choose a Data Type:</label>
+            <select id="file-select" onchange="loadFile(this.value)">
+                <option value="">Select a Data Type</option>
+                <option value="financials.json">Labor/Tax/Profit Rates</option>
+                <option value="woodFenceMaterials.json">Wood Materials</option>
+                <option value="chainLinkMaterials.json">Chain link Materials</option>
+                <option value="blackChainLinkMaterials.json">Black Chain Link Materials</option>
+                 <option value="ironFenceMaterials.json">Iron Fence Materials</option>
+                <!-- Add more friendly names here as needed -->
+            </select>
+
+            <label for="category-select" style="margin-top: 1rem;">Choose an Item Category:</label>
+            <select id="category-select" onchange="loadCategory(this.value)">
+                <option value="">Select a Category</option>
+            </select>
+        </div>
+
+        <div id="data-container" class="data-container"></div>
+    </div>
+
+<script>
+    let currentFile = '';
+    let currentData = null;
+
+    const categoryDescriptions = {
+        'laborRates': 'Labor rates are calculated per linear foot of fence',
+        'profitMargin': 'The profit margin applied to the project',
+        'taxRate': 'The tax rate applied to the project cost',
+        'wasteFactor': 'The waste factor for materials'
+    };
+
+    function loadFile(filename) {
+        if (!filename) return;
+
+        currentFile = filename;
+        fetch(`/data/${filename}`)
+            .then(response => response.json())
+            .then(data => {
+                currentData = data;
+                console.log("Loaded data:", currentData);
+
+                if (filename === "financials.json") {
+                    populateFinancialsCategories();
+                } else {
+                    const categories = Object.keys(data);
+                    populateCategoryDropdown(categories);
+                }
+
+                document.getElementById('data-container').innerHTML = '';
+            })
+            .catch(error => {
+                console.error("Error loading file:", error);
+                document.getElementById('category-select').innerHTML = '<option value="">No categories available</option>';
+            });
+    }
+
+    function populateFinancialsCategories() {
+        const categorySelect = document.getElementById('category-select');
+        categorySelect.innerHTML = `
+            <option value="">Select a Category</option>
+            <option value="laborRates">Labor Rates</option>
+            <option value="profitMargin">Profit Margin</option>
+            <option value="taxRate">Tax Rate</option>
+            <option value="wasteFactor">Waste Factor</option>
+        `;
+    }
+
+    function populateCategoryDropdown(categories) {
+        const categorySelect = document.getElementById('category-select');
+        categorySelect.innerHTML = '<option value="">Select a Category</option>';
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = formatCategoryName(category);
+            categorySelect.appendChild(option);
+        });
+    }
+
+    function loadCategory(category) {
+        if (!category || !currentData) {
+            document.getElementById('data-container').innerHTML = '';
+            return;
+        }
+
+        if (currentFile === "financials.json") {
+            displayFinancialsCategory(category);
+        } else {
+            displayCategoryData(currentData[category], category);
+        }
+    }
+
+    function displayFinancialsCategory(category) {
+    const container = document.getElementById('data-container');
+    container.innerHTML = ''; // Clear the container
+
+    if (!category) return; // Handle empty selection
+
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'category';
+
+    if (category === 'laborRates') {
+        categoryDiv.innerHTML = `
+            <h2>Labor Rates</h2>
+            <div class="category-description">${categoryDescriptions[category] || ''}</div>
+            ${Object.entries(currentData.laborRates).map(([key, value]) => `
+                <div class="item">
+                    <div class="field">
+                        <label>${formatFieldName(key)}</label>
+                        <input type="text" value="${value}"
+                               onchange="updateFinancialsValue('laborRates', '${key}', this.value)">
+                    </div>
+                </div>
+            `).join('')}
+        `;
+    }
+    else if (category === 'overheadRates') {
+        categoryDiv.innerHTML = `
+            <h2>Overhead Rates</h2>
+            <div class="category-description">${categoryDescriptions[category] || ''}</div>
+            ${Object.entries(currentData.overheadRates).map(([key, value]) => `
+                <div class="item">
+                    <div class="field">
+                        <label>${formatFieldName(key)}</label>
+                        <input type="text" value="${value}"
+                               onchange="updateFinancialsValue('overheadRates', '${key}', this.value)">
+                    </div>
+                </div>
+            `).join('')}
+        `;
+    }
+
+    container.appendChild(categoryDiv);
+}
+
+
+
+
+
+
+    function displayCategoryData(items, category) {
+        const container = document.getElementById('data-container');
+        container.innerHTML = '';
+
+        if (!items) {
+            container.innerHTML = `<p>No data available for this category.</p>`;
+            return;
+        }
+
+        if (Array.isArray(items)) {
+            container.innerHTML = `
+                <h2>${formatCategoryName(category)}</h2>
+                ${categoryDescriptions[category] ? `<div class="category-description">${categoryDescriptions[category]}</div>` : ''}
+                ${items.map((item, index) => `
+                    <div class="item">
+                        ${Object.entries(item).map(([key, value]) => `
+                            <div class="field">
+                                <label>${formatFieldName(key)}</label>
+                                <input type="text" value="${value}" onchange="updateValue('${category}', ${index}, '${key}', this.value)">
+                            </div>
+                        `).join('')}
+                        <div class="actions">
+                            <button onclick="deleteItem('${category}', ${index})">Delete</button>
+                        </div>
+                    </div>
+                `).join('')}
+                <button class="add-button" onclick="addItem('${category}')">Add New Item</button>
+            `;
+        } else if (typeof items === 'object') {
+            container.innerHTML = `
+                <h2>${formatCategoryName(category)}</h2>
+                ${categoryDescriptions[category] ? `<div class="category-description">${categoryDescriptions[category]}</div>` : ''}
+                ${Object.entries(items).map(([key, value]) => `
+                    <div class="item">
+                        <div class="field">
+                            <label>${formatFieldName(key)}</label>
+                            <input type="text" value="${value}" onchange="updateObjectValue('${category}', '${key}', this.value)">
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+    }
+
+    function formatCategoryName(name) {
+        return name.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();
+    }
+
+    function formatFieldName(name) {
+        return name.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();
+    }
+
+    function updateFinancialsValue(section, key, value) {
+        if (section) {
+            currentData[section][key] = isNaN(value) ? value : Number(value);
+        } else {
+            currentData[key] = isNaN(value) ? value : Number(value);
+        }
+        saveData();
+    }
+
+    function updateValue(category, index, key, value) {
+        currentData[category][index][key] = isNaN(value) ? value : Number(value);
+        saveData();
+    }
+
+    function updateObjectValue(category, key, value) {
+        currentData[category][key] = isNaN(value) ? value : Number(value);
+        saveData();
+    }
+
+    function deleteItem(category, index) {
+        currentData[category].splice(index, 1);
+        saveData();
+        loadCategory(category);
+    }
+
+    function addItem(category) {
+        const template = currentData[category][0];
+        const newItem = {};
+
+        for (const key in template) {
+            newItem[key] = typeof template[key] === 'number' ? 0 : '';
+        }
+
+        currentData[category].push(newItem);
+        saveData();
+        loadCategory(category);
+    }
+
+    function saveData() {
+        fetch(`/save/${currentFile}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(currentData)
+        }).then(() => console.log("Data saved successfully."))
+          .catch(error => console.error("Error saving data:", error));
+    }
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

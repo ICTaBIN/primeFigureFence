@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* Root color scheme */
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --success: #059669;
+            --success-hover: #047857;
+            --background: #eef2ff;
+            --card: #ffffff;
+            --text: #1e1b4b;
+            --text-secondary: #4338ca;
+            --border: #c7d2fe;
+            --accent: #818cf8;
+            --panel-bg-left: #e0e7ff;
+            --panel-bg-right: #ede9fe;
+        }
+
+        /* Basic reset and body styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Title styling */
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        /* Subtitle styling */
+        p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Link card container */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Link card styling */
+        .link-card {
+            background-color: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s, background-color 0.3s;
+            cursor: pointer;
+        }
+
+        /* Link card hover effect */
+        .link-card:hover {
+            background-color: var(--panel-bg-left);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Link text styling */
+        .link-card a {
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: block;
+        }
+
+        /* Hover color for link text */
+        .link-card a:hover {
+            color: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Your Dashboard!</h1>
+    <p>Navigate through the tools and resources below.</p>
+
+    <div class="link-grid">
+        <div class="link-card">
+            <a href="/">Dashboard Home</a>
+        </div>
+        <div class="link-card">
+            <a href="/drawingtool">Drawing Tool</a>
+        </div>
+        <div class="link-card">
+            <a href="/wood_fence">Wood Fence Calculator</a>
+        </div>
+        <div class="link-card">
+            <a href="/pricing">Edit Materials & Prices</a>
+        </div>
+        <div class="link-card">
+            <a href="/iron_fence">Iron Fence Calculator</a>
+        </div>
+        <div class="link-card">
+            <a href="/chainlink_fence">Chain Link Fence Calculator</a>
+        </div>
+        <div class="link-card">
+            <a href="/customer_data">Add Customer</a>
+        </div>
+        <div class="link-card">
+            <a href="/customer_list">Customer List</a>
+        </div>
+        <div class="link-card">
+            <a href="/company_settings">Company Settings</a>
+        </div>
+    </div>
+</body>
+</html>

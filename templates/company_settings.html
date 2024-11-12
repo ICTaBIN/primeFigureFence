@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Settings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            color: #333;
+        }
+        h1, h2 { color: #4f46e5; }
+        .settings-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .form-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .labor-rates {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .rate-group {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .button:hover {
+            background-color: #4338ca;
+        }
+        .logo-preview {
+            max-width: 200px;
+            max-height: 100px;
+            margin-top: 1rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+        .success-message {
+            display: none;
+            background-color: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to Dashboard</a>
+    <h1>Company Settings</h1>
+    <div id="successMessage" class="success-message">Settings saved successfully!</div>
+
+    <form id="settingsForm">
+        <div class="settings-container">
+            <div class="form-section">
+                <h2>Company Information</h2>
+                <div class="form-group">
+                    <label for="company_name">Company Name</label>
+                    <input type="text" id="company_name" name="company_name" value="{{ company_info.name }}">
+                </div>
+                <div class="form-group">
+                    <label for="company_address">Address</label>
+                    <input type="text" id="company_address" name="company_address" value="{{ company_info.address }}">
+                </div>
+                <div class="form-group">
+                    <label for="company_phone">Phone</label>
+                    <input type="tel" id="company_phone" name="company_phone" value="{{ company_info.phone }}">
+                </div>
+                <div class="form-group">
+                    <label for="company_email">Email</label>
+                    <input type="email" id="company_email" name="company_email" value="{{ company_info.email }}">
+                </div>
+                <div class="form-group">
+                    <label for="company_website">Website</label>
+                    <input type="text" id="company_website" name="company_website" value="{{ company_info.website }}">
+                </div>
+                <div class="form-group">
+                    <label for="company_logo">Company Logo</label>
+                    <input type="file" id="company_logo" name="company_logo" accept="image/*">
+                    {% if company_info.logo %}
+                    <img src="{{ company_info.logo }}" alt="Company Logo" class="logo-preview" id="logoPreview">
+                    <input type="hidden" name="existing_logo" value="{{ company_info.logo }}">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Financial Settings</h2>
+                <div class="form-group">
+                    <h3>Overhead Rates</h3>
+                    <div class="form-group">
+                        <label for="profit_margin">Profit Margin (0-1)</label>
+                        <input type="number" id="profit_margin" name="profit_margin"
+                               value="{{ financials.overheadRates.profitMargin }}"
+                               step="0.01" min="0" max="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="tax_rate">Tax Rate (0-1)</label>
+                        <input type="number" id="tax_rate" name="tax_rate"
+                               value="{{ financials.overheadRates.taxRate }}"
+                               step="0.01" min="0" max="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="waste_factor">Waste Factor</label>
+                        <input type="number" id="waste_factor" name="waste_factor"
+                               value="{{ financials.overheadRates.wasteFactor }}"
+                               step="0.01" min="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h3>Labor Rates (per linear foot)</h3>
+                    {% for fence_type in ['chain_link', 'iron_fence', 'wood_privacy'] %}
+                    <div class="rate-group">
+                        <h4>{{ fence_type|replace('_', ' ')|title }}</h4>
+                        {% for height in ['4', '5', '6', '8'] %}
+                        <div class="form-group">
+                            <label for="labor_rate_{{ fence_type }}_{{ height }}">{{ height }}' Height</label>
+                            <input type="number"
+                                   id="labor_rate_{{ fence_type }}_{{ height }}"
+                                   name="labor_rate_{{ fence_type }}_{{ height }}"
+                                   value="{{ financials.laborRates[fence_type][height] if height in financials.laborRates[fence_type] }}"
+                                   step="0.5" min="0">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="submit" class="button">Save Settings</button>
+        </div>
+    </form>
+
+    <script>
+        // Preview logo upload
+        document.getElementById('company_logo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('logoPreview');
+                    if (preview) {
+                        preview.src = e.target.result;
+                    } else {
+                        const newPreview = document.createElement('img');
+                        newPreview.src = e.target.result;
+                        newPreview.alt = 'Company Logo';
+                        newPreview.className = 'logo-preview';
+                        newPreview.id = 'logoPreview';
+                        document.getElementById('company_logo').parentNode.appendChild(newPreview);
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('settingsForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('/save_company_settings', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.style.display = 'block';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                } else {
+                    alert('Error saving settings: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error saving settings: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

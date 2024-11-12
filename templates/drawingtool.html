@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Fence Drawing Tool{% endblock %}
+
+{% block styles %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+<link href="{% static 'css/drawing-tool.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1>Fence Drawing Tool</h1>
+
+<div class="main-container">
+    <div class="left-panel">
+        <div class="controls-group">
+            <div class="section-title">Drawing Settings</div>
+            <div class="input-group">
+                <label for="postSpacing">Post Spacing (ft)</label>
+                <input type="number" id="postSpacing" value="8" min="1">
+            </div>
+            <div class="input-group">
+                <label for="scale">Scale (px/ft)</label>
+                <input type="number" id="scale" value="5" min="1">
+            </div>
+            <div class="input-group">
+                <label for="numRails">Number of Rails</label>
+                <input type="number" id="numRails" value="3" min="1" max="6">
+            </div>
+            <div class="input-group">
+                <label for="height">Fence Height (ft)</label>
+                <input type="number" id="height" value="6" min="1">
+            </div>
+        </div>
+    </div>
+
+    <div class="center-panel">
+        <div class="top-controls">
+            <div class="button-row">
+                <button id="resetDrawing">Start New</button>
+                <button id="addStructure">Add Structure</button>
+                <button id="undoLine">Undo Line</button>
+                <button id="undoStructure">Undo Structure</button>
+                <button id="endDrawing">End Drawing</button>
+            </div>
+        </div>
+
+        <div id="canvas-container">
+            <canvas id="drawingCanvas"></canvas>
+        </div>
+
+        <div id="output">
+            <div class="stat-card">
+                <div class="stat-label">Total Linear Feet</div>
+                <div class="stat-value" id="totalFeet">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Corner Posts</div>
+                <div class="stat-value" id="cornerPosts">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">End Posts</div>
+                <div class="stat-value" id="endPosts">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Line Posts</div>
+                <div class="stat-value" id="linePosts">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Gates</div>
+                <div class="stat-value" id="totalGates">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="controls-group">
+            <div class="section-title">Gate Settings</div>
+            <div class="input-group">
+                <label for="gateWidth">Width (ft)</label>
+                <input type="number" id="gateWidth" value="4" min="1">
+            </div>
+            <div class="input-group">
+                <label for="gateSwing">Swing Direction</label>
+                <select id="gateSwing">
+                    <option value="in">Inward</option>
+                    <option value="out">Outward</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="gateHingeSide">Hinge Side</label>
+                <select id="gateHingeSide">
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="gatePostCount">Posts</label>
+                <select id="gatePostCount">
+                    <option value="1">Single Post</option>
+                    <option value="2">Double Post</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="gateOrientation">Orientation</label>
+                <select id="gateOrientation">
+                    <option value="horizontal">Horizontal</option>
+                    <option value="vertical">Vertical</option>
+                </select>
+            </div>
+            <div class="button-row">
+                <button id="addGate">Add Gate</button>
+                <button id="undoGate">Undo Gate</button>
+            </div>
+        </div>
+
+        <div class="materials-container">
+            <select id="fenceType">
+                <option value="wood_fence">Wood Privacy Fence</option>
+                <option value="chain_link">Chain Link Fence</option>
+                <option value="iron_fence">Iron Fence</option>
+            </select>
+            <button id="calculateMaterials" class="success-button">Calculate Materials</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{% static 'js/drawing.js' %}"></script>
+<script type="module" src="{% static 'js/templates.js' %}"></script>
+<script type="module" src="{% static 'js/gates.js' %}"></script>
+<script type="module" src="{% static 'js/structures.js' %}"></script>
+<script type="module" src="{% static 'js/calculations.js' %}"></script>
+<script type="module">
+    import { drawingCanvas } from '{% static "js/drawing.js" %}';
+    import { templateManager } from '{% static "js/templates.js" %}';
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize components
+    });
+</script>
+{% endblock %}
