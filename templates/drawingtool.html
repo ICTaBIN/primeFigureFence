@@ -1,11 +1,18 @@
 {% extends "base.html" %}
+<<<<<<< HEAD
 {% load static %}
+=======
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 
 {% block title %}Fence Drawing Tool{% endblock %}
 
 {% block styles %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+<<<<<<< HEAD
 <link href="{% static 'css/drawing-tool.css' %}" rel="stylesheet">
+=======
+<link href="{{ url_for('static', filename='css/drawing-tool.css') }}" rel="stylesheet">
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 {% endblock %}
 
 {% block content %}
@@ -127,6 +134,7 @@
 {% endblock %}
 
 {% block scripts %}
+<<<<<<< HEAD
 <script type="module" src="{% static 'js/drawing.js' %}"></script>
 <script type="module" src="{% static 'js/templates.js' %}"></script>
 <script type="module" src="{% static 'js/gates.js' %}"></script>
@@ -135,6 +143,16 @@
 <script type="module">
     import { drawingCanvas } from '{% static "js/drawing.js" %}';
     import { templateManager } from '{% static "js/templates.js" %}';
+=======
+<script type="module" src="{{ url_for('static', filename='js/drawing.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/templates.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/gates.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/structures.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/calculations.js') }}"></script>
+<script type="module">
+    import { drawingCanvas } from '{{ url_for("static", filename="js/drawing.js") }}';
+    import { templateManager } from '{{ url_for("static", filename="js/templates.js") }}';
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
     
     document.addEventListener('DOMContentLoaded', () => {
         // Initialize components

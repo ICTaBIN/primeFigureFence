@@ -29,8 +29,12 @@
 </head>
 <body>
     <h1>Customer Data Entry</h1>
+<<<<<<< HEAD
     <form method="POST" action="{% url 'submit_customer_data' %}">
         {% csrf_token %}
+=======
+    <form id="customerDataForm">
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
 

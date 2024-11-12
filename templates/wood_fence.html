@@ -1,11 +1,18 @@
 {% extends "base.html" %}
+<<<<<<< HEAD
 {% load static %}
+=======
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 
 {% block title %}Wood Fence Calculator{% endblock %}
 
 {% block styles %}
 <link rel="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+<<<<<<< HEAD
 <link href="{% static 'css/wood-fence.css' %}" rel="stylesheet">
+=======
+<link href="{{ url_for('static', filename='css/wood-fence.css') }}" rel="stylesheet">
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 {% endblock %}
 
 {% block content %}
@@ -126,12 +133,21 @@
 
 {% block scripts %}
 
+<<<<<<< HEAD
  <script src="{% static 'js/resize.js' %}"></script>
 
 
 <script src="{% static 'js/drawing.js' %}"></script>
 <script src="{% static 'js/wood-fence.js' %}"></script>
 <script type="module" src="{% static 'js/templates.js' %}"></script>
+=======
+ <script src="{{ url_for('static', filename='js/resize.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js/drawing.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wood-fence.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/templates.js') }}"></script>
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 
     <script>
     document.getElementById('convertToProposal').addEventListener('click', function () {

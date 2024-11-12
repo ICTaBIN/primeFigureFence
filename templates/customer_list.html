@@ -64,6 +64,7 @@
 </head>
 <body>
     <a href="/" class="back-button">← Back to Dashboard</a>
+<<<<<<< HEAD
 
     <h1>Customer List</h1>
     <div class="customer-grid" id="customerGrid">
@@ -83,5 +84,51 @@
         {% endfor %}
     </div>
 
+=======
+    <h1>Customer List</h1>
+    <div class="customer-grid" id="customerGrid">
+        <!-- Customers will be loaded here dynamically -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/customers');
+                const customers = await response.json();
+
+                const customerGrid = document.getElementById('customerGrid');
+
+                Object.entries(customers).forEach(([id, customer]) => {
+                    const card = document.createElement('div');
+                    card.className = 'customer-card';
+                    card.innerHTML = `
+                        <h3>${customer.name}</h3>
+                        <div class="customer-info">
+                            <p><strong>Address:</strong> ${customer.address}</p>
+                            <p><strong>Phone:</strong> ${customer.phone}</p>
+                            <p><strong>Email:</strong> ${customer.email}</p>
+                        </div>
+                        <div class="customer-actions">
+                            <button class="button" onclick="selectCustomer('${id}')">Select Customer</button>
+                            <button class="button" onclick="viewProposals('${id}')">View Proposals</button>
+                        </div>
+                    `;
+                    customerGrid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading customers:', error);
+            }
+        });
+
+        function selectCustomer(customerId) {
+            localStorage.setItem('customer_id', customerId);
+            window.location.href = '/drawingtool';
+        }
+
+        function viewProposals(customerId) {
+            window.location.href = `/customer_proposals/${customerId}`;
+        }
+    </script>
+>>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 </body>
 </html>
