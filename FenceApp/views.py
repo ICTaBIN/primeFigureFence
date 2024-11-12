@@ -9,7 +9,7 @@ from functools import wraps
 from typing import Dict, Any, Callable
 import logging
 import uuid
-from .models import Customer, Proposal
+from .models import Customer
 
 import base64
 
