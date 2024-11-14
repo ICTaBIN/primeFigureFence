@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .utils import *
 # from flask import Flask, render, request, JsonResponse, send_from_directory
@@ -9,9 +9,11 @@ from functools import wraps
 from typing import Dict, Any, Callable
 import logging
 import uuid
-from .models import Customer
+from .models import Customer, Company, LaborRate, OverheadRates, Proposal, Style, MaterialCategory, Material
 
 import base64
+from django.contrib import messages
+from django.urls import reverse
 
 
 
@@ -24,98 +26,85 @@ logger = logging.getLogger(__name__)
 
 
 
+def company_settings(request, company_id):
+    # Get specific company or 404
+    company = get_object_or_404(Company, id=company_id)
 
+    if request.method == 'POST':
+        try:
+            # 1. Update Company Info - only update fields that were sent
+            company.name = request.POST.get('company_name', company.name)
+            company.address = request.POST.get('company_address', company.address)
+            company.phone = request.POST.get('company_phone', company.phone)
+            company.email = request.POST.get('company_email', company.email)
+            company.website = request.POST.get('company_website', company.website)
 
+            # Only update logo if new one was uploaded
+            if 'company_logo' in request.FILES:
+                company.logo = request.FILES['company_logo']
 
+            company.save()
 
+            # 2. Update OverheadRates - only if values provided
+            overhead = OverheadRates.objects.filter(company=company).first()
+            if not overhead:
+                overhead = OverheadRates(company=company)
 
+            if request.POST.get('profit_margin'):
+                overhead.profit_margin = request.POST.get('profit_margin')
+            if request.POST.get('tax_rate'):
+                overhead.tax_rate = request.POST.get('tax_rate')
+            if request.POST.get('waste_factor'):
+                overhead.waste_factor = request.POST.get('waste_factor')
+            overhead.save()
 
+            # 3. Update LaborRates - only update rates that were provided
+            for fence_type in company.get_fence_types:
+                for height in company.get_fence_heights:
+                    rate_key = f'labor_rate_{fence_type}_{height}'
+                    if rate_key in request.POST and request.POST[rate_key]:
+                        rate = LaborRate.objects.filter(
+                            company=company,
+                            fence_type=fence_type,
+                            height=height
+                        ).first()
+                        
+                        if rate:
+                            rate.rate = request.POST[rate_key]
+                            rate.save()
+                        else:
+                            LaborRate.objects.create(
+                                company=company,
+                                fence_type=fence_type,
+                                height=height,
+                                rate=request.POST[rate_key]
+                            )
 
+            messages.success(request, 'Company settings saved successfully!')
+            return redirect('company_settings', company_id=company_id)
+        except Exception as e:
+            messages.error(request, f'Error saving settings: {str(e)}')
+            return redirect('company_settings', company_id=company_id)
 
+    # For GET request
+    rates = LaborRate.objects.filter(company=company)
+    labor_rates_dict = {}
+    for rate in rates:
+        print("rate", rate)
+        if rate.fence_type not in labor_rates_dict:
+            labor_rates_dict[rate.fence_type] = {}
+        labor_rates_dict[rate.fence_type][rate.height] = rate.rate
 
-# Add these routes after the existing routes
+    context = {
+        'company_info': company,
+        'overhead': OverheadRates.objects.filter(company=company).first(),
+        'fence_types': company.get_fence_types,
+        'heights': company.get_fence_heights,
+        'labor_rates': labor_rates_dict
+    }
+    print("labor_rates", labor_rates_dict)
 
-def company_settings(request):
-    company_info = load_company_info()
-    financials = load_financials()
-    return render(request,'company_settings.html',
-                           company_info=company_info,
-                           financials=financials)
-
-
-
-def save_company_settings(request):
-    try:
-        form_data = request.form.to_dict()
-
-        # Handle company info
-        company_info = {
-            "name": form_data.get('company_name', ''),
-            "address": form_data.get('company_address', ''),
-            "phone": form_data.get('company_phone', ''),
-            "email": form_data.get('company_email', ''),
-            "website": form_data.get('company_website', ''),
-            "logo": form_data.get('existing_logo', '')  # Preserve existing logo if no new one
-        }
-
-        # Handle logo upload
-        if 'company_logo' in request.files:
-            file = request.files['company_logo']
-            if file and file.filename:
-                # Convert to base64
-                file_content = file.read()
-                encoded = base64.b64encode(file_content).decode('utf-8')
-                company_info['logo'] = f"data:image/{file.filename.split('.')[-1]};base64,{encoded}"
-
-        # Handle financials
-        financials = load_financials()
-
-        # Update labor rates
-        for fence_type in ['chain_link', 'iron_fence', 'wood_privacy']:
-            for height in ['4', '5', '6', '8']:
-                rate_key = f'labor_rate_{fence_type}_{height}'
-                if rate_key in form_data and form_data[rate_key]:
-                    if height not in financials['laborRates'][fence_type]:
-                        financials['laborRates'][fence_type][height] = 0
-                    financials['laborRates'][fence_type][height] = float(form_data[rate_key])
-
-        # Update overhead rates
-        financials['overheadRates']['profitMargin'] = float(form_data.get('profit_margin', 0.77))
-        financials['overheadRates']['taxRate'] = float(form_data.get('tax_rate', 0.08))
-        financials['overheadRates']['wasteFactor'] = float(form_data.get('waste_factor', 1.1))
-
-        save_company_info(company_info)
-        save_financials(financials)
-
-        return JsonResponse({"success": True})
-    except Exception as e:
-        logger.error(f"Error saving company settings: {e}")
-        return JsonResponse({"error": str(e)}, status=500)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render(request, 'company_settings.html', context=context)
 
 
 
@@ -123,99 +112,84 @@ def dashboard(request):
     return render(request,'dashboard.html')
 
 
-
 def create_proposal(request):
+    print("just before try")
     try:
-        data = request.get_json()
-        proposal_id = str(uuid.uuid4())
+        # Get data from request
+        data = request.POST
         customer_id = data.get('customer_id')
+        customer = Customer.objects.get(id=customer_id)
+
+        # Create Style instance
+        style = Style.objects.create(
+            pickets=data.get('style[pickets]', ''),
+            posts=data.get('style[posts]', ''),
+            rails=data.get('style[rails]', ''),
+            fasteners=data.get('style[fasteners]', ''),
+            gates=data.get('style[gates]', '')
+        )
 
         # Convert numeric strings to floats explicitly
         total = float(data.get('total', '0').replace('$', '').strip())
         tax = float(data.get('tax', '0').replace('$', '').strip())
         subtotal = total - tax  # Calculate subtotal from total and tax
 
-        proposals = load_proposals()
-        proposals[proposal_id] = {
-            "customer_id": customer_id,
-            "height": data['height'],
-            "style": data['style'],
-            "gates": data['gates'],
-            "totalLinearFeet": data['totalLinearFeet'],
-            "cornerPosts": data['cornerPosts'],
-            "endPosts": data['endPosts'],
-            "linePosts": data['linePosts'],
-            "materialCost": float(str(data['materialCost']).replace('$', '').strip()),
-            "laborCost": float(str(data['laborCost']).replace('$', '').strip()),
-            "subtotal": subtotal,
-            "tax": tax,
-            "total": total,
-            "drawing": data['drawing']
-        }
-        save_proposals(proposals)
-        return JsonResponse({"proposal_id": proposal_id})
+        # Create Proposal instance
+        proposal = Proposal.objects.create(
+            customer=customer,
+            height=data.get('height', ''),
+            style=style,
+            gates=data.get('gates', '0'),
+            total_linear_feet=data.get('totalLinearFeet', '0'),
+            corner_posts=data.get('cornerPosts', '0'),
+            end_posts=data.get('endPosts', '0'),
+            line_posts=data.get('linePosts', '0'),
+            material_cost=float(str(data.get('materialCost', '0')).replace('$', '').strip()),
+            labor_cost=float(str(data.get('laborCost', '0')).replace('$', '').strip()),
+            subtotal=subtotal,
+            tax=tax,
+            total=total,
+            drawing=data.get('drawing', '')
+        )
+
+        return JsonResponse({"proposal_id": proposal.id})
+
+    except Customer.DoesNotExist:
+        logger.error(f"Customer with id {customer_id} not found")
+        return JsonResponse({"error": "Customer not found"}, status=404)
     except Exception as e:
         logger.error(f"Error creating proposal: {e}")
         return JsonResponse({"error": str(e)}, status=500)
 
 
-
 def view_proposal(request, proposal_id):
     try:
-        proposals = load_proposals()
+        proposal = get_object_or_404(Proposal, id=proposal_id)
+        customer = proposal.customer
+        company = Company.objects.first()
 
-        proposal_data = proposals.get(proposal_id)
-        if not proposal_data:
-            logger.error(f"Proposal {proposal_id} not found")
-            return JsonResponse({"error": "Proposal not found"}, status=404)
-
-        # Convert string values to float and clean up any currency symbols
-        try:
-            total = float(str(proposal_data.get('total', '0')).replace('$', '').strip())
-            tax = float(str(proposal_data.get('tax', '0')).replace('$', '').strip())
-
-            # Update the proposal data with cleaned numeric values
-            proposal_data.update({
-                'total': total,
-                'tax': tax,
-                'subtotal': total - tax,
-                'materialCost': float(str(proposal_data.get('materialCost', '0')).replace('$', '').strip()),
-                'laborCost': float(str(proposal_data.get('laborCost', '0')).replace('$', '').strip())
-            })
-        except ValueError as e:
-            logger.error(f"Error converting numeric values: {e}")
-            # Provide default values if conversion fails
-            proposal_data.update({
-                'total': 0.0,
-                'tax': 0.0,
-                'subtotal': 0.0,
-                'materialCost': 0.0,
-                'laborCost': 0.0
-            })
-
-        customer = {}
-        customer_id = proposal_data.get('customer_id')
-        if customer_id:
-            customers = load_customers()
-            customer = customers.get(customer_id, {})
-            logger.info(f"Loaded customer data for ID {customer_id}: {customer}")
-
-        company_info = load_company_info()
-
-        return render(request,'proposal1.html',
-                               proposal=proposal_data,
-                               customer=customer,
-                               company=company_info)
+        context = {
+            'proposal': proposal,
+            'customer': customer,
+            'company': company
+        }
+        return render(request, 'proposal1.html', context)
     except Exception as e:
         logger.error(f"Error viewing proposal: {e}")
-        return JsonResponse({"error": f"Error loading proposal: {str(e)}"}, status=500)
+        messages.error(request, f"Error viewing proposal: {str(e)}")
+        return redirect('dashboard')
 
 
 
 
 def pricing(request):
-    files = [f for f in os.listdir(PRICING_DIR) if f.endswith('.json')]
-    return render(request,'pricing.html', files=files)
+    material_categories = MaterialCategory.objects.all()
+    choice = request.GET.get('material_category')
+    selected_category = MaterialCategory.objects.get(name=choice) if choice else None
+    print("selected_category", selected_category)
+    materials = Material.objects.filter(category=selected_category) if selected_category else Material.objects.all()
+    print("materials", materials,len(materials))
+    return render(request,'pricing.html', context={'material_categories': material_categories, 'materials': materials}) #files=files
 
 
 
@@ -235,6 +209,7 @@ def save_data(request, filename: str):
 
 
 def get_material_file(request, filename: str):
+    print('file requested: ',filename)
     return send_from_directory(PRICING_DIR, filename)
 
 
@@ -245,7 +220,7 @@ def drawing_tool(request):
 
 
 def wood_fence(request):
-    return render(request,"wood_fence.html")
+    return render(request, 'wood_fence.html')
 
 
 
@@ -329,8 +304,6 @@ def customer_proposals(request, customer_id):
     
     customer_proposals = Proposal.objects.filter(customer_id=customer_id)
 
-
-
     return render(request,
         'customer_proposals.html',
         context={
@@ -360,10 +333,9 @@ def submit_customer_data(request):
         customer = Customer(name=name, address=address, phone=phone, email=email)
         customer.save()
 
-        return JsonResponse({"success": True, "customer_id": customer.id})
-    
+        return redirect('customer_list')
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
-# proposals = load_proposals()
-# init_template_file()
+
+

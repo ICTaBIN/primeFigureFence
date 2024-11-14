@@ -158,20 +158,22 @@
         <h1>Pricing Data Manager</h1>
 
         <div class="dropdown-container">
-            <label for="file-select">Choose a Data Type:</label>
-            <select id="file-select" onchange="loadFile(this.value)">
-                <option value="">Select a Data Type</option>
-                <option value="financials.json">Labor/Tax/Profit Rates</option>
-                <option value="woodFenceMaterials.json">Wood Materials</option>
-                <option value="chainLinkMaterials.json">Chain link Materials</option>
-                <option value="blackChainLinkMaterials.json">Black Chain Link Materials</option>
-                 <option value="ironFenceMaterials.json">Iron Fence Materials</option>
-                <!-- Add more friendly names here as needed -->
-            </select>
+            <label for="file-select">Choose a Material Category: </label>
+            <form method="GET" action="{% url 'pricing' %}">
+                <select name="material_category" onchange="this.form.submit()">
+                    <option value="">Select Material Category</option>
+                    {% for category in material_categories %}
+                    <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
 
-            <label for="category-select" style="margin-top: 1rem;">Choose an Item Category:</label>
+            <label for="category-select" style="margin-top: 1rem;">Choose Material</label>
             <select id="category-select" onchange="loadCategory(this.value)">
-                <option value="">Select a Category</option>
+                <option value="">Select Material</option>
+                {% for material in materials %}
+                <option value="{{ material.name }}">{{ material.name }}</option>
+                {% endfor %}
             </select>
         </div>
 
