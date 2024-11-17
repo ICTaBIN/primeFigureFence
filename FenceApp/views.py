@@ -9,7 +9,7 @@ from functools import wraps
 from typing import Dict, Any, Callable
 import logging
 import uuid
-from .models import Customer, Company, LaborRate, OverheadRates, Proposal, Style, MaterialCategory, Material
+from .models import Customer, Company, LaborRate, OverheadRates, Proposal, MaterialCategory, Material
 
 import base64
 from django.contrib import messages
@@ -183,13 +183,19 @@ def view_proposal(request, proposal_id):
 
 
 def pricing(request):
-    material_categories = MaterialCategory.objects.all()
-    choice = request.GET.get('material_category')
-    selected_category = MaterialCategory.objects.get(name=choice) if choice else None
-    print("selected_category", selected_category)
-    materials = Material.objects.filter(category=selected_category) if selected_category else Material.objects.all()
-    print("materials", materials,len(materials))
-    return render(request,'pricing.html', context={'material_categories': material_categories, 'materials': materials}) #files=files
+    # all available material categories
+    all_categories = MaterialCategory.objects.all()
+
+    # lookup chosen category in database
+    user_selected_category= request.GET.get('material_category',None)
+    print(user_selected_category)
+    category = MaterialCategory.objects.get(name=user_selected_category) if user_selected_category else None
+    # print(category)
+
+    materials = Material.objects.filter(category = category) if category else None
+    print('found materails ',materials)
+    context = {'material_categories': all_categories,'selected_category': user_selected_category, 'materials': materials}
+    return render(request,'pricing.html', context=context) #files=files
 
 
 

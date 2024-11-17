@@ -161,20 +161,20 @@
             <label for="file-select">Choose a Material Category: </label>
             <form method="GET" action="{% url 'pricing' %}">
                 <select name="material_category" onchange="this.form.submit()">
-                    <option value="">Select Material Category</option>
+                    <option value="" disabled {% if not selected_category %}selected{% endif %}>Select Material Category</option>
                     {% for category in material_categories %}
-                    <option value="{{ category.name }}">{{ category.name }}</option>
+                    <option value="{{ category.name }}" {% if selected_category == category.name %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                
+                <label for="category-select" style="margin-top: 1rem;">Choose Material</label>
+                <select id="category-select">
+                    <option value="" selected disabled >Select Material</option>
+                    {% for material in materials %}
+                    <option value="{{ material.name }}">{{ material.name }}</option>
                     {% endfor %}
                 </select>
             </form>
-
-            <label for="category-select" style="margin-top: 1rem;">Choose Material</label>
-            <select id="category-select" onchange="loadCategory(this.value)">
-                <option value="">Select Material</option>
-                {% for material in materials %}
-                <option value="{{ material.name }}">{{ material.name }}</option>
-                {% endfor %}
-            </select>
         </div>
 
         <div id="data-container" class="data-container"></div>

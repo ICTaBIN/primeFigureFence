@@ -1,0 +1,238 @@
+[
+    {
+        "model": "FenceApp.materialcategory",
+        "pk": 1,
+        "fields": {
+            "name": "WoodFence"
+        }
+    },
+    {
+        "model": "FenceApp.materialcategory",
+        "pk": 2,
+        "fields": {
+            "name": "IronFence"
+        }
+    },
+    {
+        "model": "FenceApp.materialcategory",
+        "pk": 3,
+        "fields": {
+            "name": "Chainlink"
+        }
+    },
+    {
+        "model": "FenceApp.materialcategory",
+        "pk": 4,
+        "fields": {
+            "name": "Black Chainlink"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 1,
+        "fields": {
+            "category": 1,
+            "name": "Concrete"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 2,
+        "fields": {
+            "category": 1,
+            "name": "Fasteners"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 3,
+        "fields": {
+            "category": 1,
+            "name": "Gates"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 4,
+        "fields": {
+            "category": 1,
+            "name": "Pickets"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 5,
+        "fields": {
+            "category": 1,
+            "name": "Posts"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 6,
+        "fields": {
+            "category": 1,
+            "name": "Rails"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 7,
+        "fields": {
+            "category": 2,
+            "name": "Panels"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 8,
+        "fields": {
+            "category": 2,
+            "name": "Posts"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 9,
+        "fields": {
+            "category": 2,
+            "name": "Brackets"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 10,
+        "fields": {
+            "category": 2,
+            "name": "Gates"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 11,
+        "fields": {
+            "category": 2,
+            "name": "GateHardware"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 12,
+        "fields": {
+            "category": 3,
+            "name": "BarbWire"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 13,
+        "fields": {
+            "category": 3,
+            "name": "BraceBands"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 14,
+        "fields": {
+            "category": 3,
+            "name": "Concrete"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 15,
+        "fields": {
+            "category": 3,
+            "name": "HogTies"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 16,
+        "fields": {
+            "category": 3,
+            "name": "LinePostCaps"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 17,
+        "fields": {
+            "category": 3,
+            "name": "LinePosts"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 18,
+        "fields": {
+            "category": 3,
+            "name": "Mesh"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 19,
+        "fields": {
+            "category": 3,
+            "name": "TensionBands"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 20,
+        "fields": {
+            "category": 3,
+            "name": "TensionBars"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 21,
+        "fields": {
+            "category": 3,
+            "name": "TensionWire"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 22,
+        "fields": {
+            "category": 3,
+            "name": "TerminalCaps"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 23,
+        "fields": {
+            "category": 3,
+            "name": "TerminalPosts"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 24,
+        "fields": {
+            "category": 3,
+            "name": "TopRail"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 25,
+        "fields": {
+            "category": 3,
+            "name": "TopRailEnds"
+        }
+    },
+    {
+        "model": "FenceApp.material",
+        "pk": 26,
+        "fields": {
+            "category": 3,
+            "name": "TrussBars"
+        }
+    }
+]
