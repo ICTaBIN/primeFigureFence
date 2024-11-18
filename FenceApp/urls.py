@@ -23,4 +23,8 @@ urlpatterns = [
     path('customer_proposals/<customer_id>/', views.customer_proposals, name="customer_proposals"),
     path('customer_data/', views.customer_data, name="customer_data"),
     path('submit_customer_data/', views.submit_customer_data, name="submit_customer_data"),
+
+    path('delete_material_instance/<str:material_instance_id>', views.delete_material_instance, name="delete_material_instance"),
+    # path('add_material_instance/', views.add_material_instance, name="add_material_instance")
+
 ]

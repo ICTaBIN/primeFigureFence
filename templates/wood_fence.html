@@ -1,18 +1,11 @@
 {% extends "base.html" %}
-<<<<<<< HEAD
 {% load static %}
-=======
->>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 
 {% block title %}Wood Fence Calculator{% endblock %}
 
 {% block styles %}
 <link rel="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
-<<<<<<< HEAD
 <link href="{% static 'css/wood-fence.css' %}" rel="stylesheet">
-=======
-<link href="{{ url_for('static', filename='css/wood-fence.css') }}" rel="stylesheet">
->>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 {% endblock %}
 
 {% block content %}
@@ -74,6 +67,40 @@
             </thead>
             <tbody>
                 <!-- Table content will be added dynamically -->
+                {% for material, material_item in grouped_materials.items %}
+                
+                <tr>
+                    <td>
+                        <input type="number" id="concreteQty" class="quantity-input" min="0">
+                    </td>
+
+                    <td>
+                        {{material}}
+                   </td>   
+
+                   <td>
+                       <select id="{{material_item}}Select">
+                       {% for item in material_item %}
+                         <option value="">{{item.material_data.name}}</option>
+                         {% endfor %}
+                        </select>
+                    </td> 
+
+                    <td>
+                        {% for item in material_item %}
+                        {{item.material_data.price}}
+                        {% endfor %}
+                    </td>
+
+                    <td>
+                        <input type="checkbox" id="concreteTax" class="tax-checkbox">
+                    </td>
+
+                    <td id="concreteTotal">$7.00</td>
+                </tr>
+            
+                {% endfor %}
+
             </tbody>
         </table>
 
@@ -133,22 +160,13 @@
 
 {% block scripts %}
 
-<<<<<<< HEAD
  <script src="{% static 'js/resize.js' %}"></script>
 
 
 <script src="{% static 'js/drawing.js' %}"></script>
 <script src="{% static 'js/wood-fence.js' %}"></script>
 <script type="module" src="{% static 'js/templates.js' %}"></script>
-=======
- <script src="{{ url_for('static', filename='js/resize.js') }}"></script>
-
-
-<script src="{{ url_for('static', filename='js/drawing.js') }}"></script>
-<script src="{{ url_for('static', filename='js/wood-fence.js') }}"></script>
-<script type="module" src="{{ url_for('static', filename='js/templates.js') }}"></script>
->>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
-
+<!-- 
     <script>
     document.getElementById('convertToProposal').addEventListener('click', function () {
         // Collect relevant data from the page
@@ -217,5 +235,5 @@
         })
         .catch(error => console.error('Error:', error));
     });
-</script>
+</script> -->
 {% endblock %}

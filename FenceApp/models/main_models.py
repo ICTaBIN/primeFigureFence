@@ -48,39 +48,13 @@ class Customer(models.Model):
         return self.name
 
 
-class Material(models.Model):
-    name = models.CharField(max_length=255)
-
-
-class MaterialCategory(models.Model):
-    name = models.CharField(max_length=255)
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        verbose_name = "Material Category"
-        verbose_name_plural = "Material Categories"
-
-
-
-class Style(models.Model):
-    pickets = models.CharField(max_length=255)
-    posts = models.CharField(max_length=255)
-    rails = models.CharField(max_length=255)
-    fasteners = models.CharField(max_length=255)
-    gates = models.CharField(max_length=255)
-    
-    def __str__(self):
-        return f"Style - Pickets: {self.pickets}"
-
-
 class Proposal(models.Model):
     # Customer Information
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE, null=True, blank=True)
     
     # Basic Information
     height = models.CharField(max_length=10, null=True, blank=True)
-    style = models.ForeignKey(Style, on_delete=models.CASCADE, null=True, blank=True)
+    style = models.JSONField()
     
     # Quantity Information
     gates = models.CharField(max_length=10, null=True, blank=True)

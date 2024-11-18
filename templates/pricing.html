@@ -162,24 +162,38 @@
             <form method="GET" action="{% url 'pricing' %}">
                 <select name="material_category" onchange="this.form.submit()">
                     <option value="" disabled {% if not selected_category %}selected{% endif %}>Select Material Category</option>
-                    {% for category in material_categories %}
-                    <option value="{{ category.name }}" {% if selected_category == category.name %}selected{% endif %}>{{ category.name }}</option>
+                    {% for material_category in material_categories %}
+                    <option value="{{ material_category.name }}" {% if selected_category == material_category.name %}selected{% endif %}>{{ material_category.name }}</option>
                     {% endfor %}
                 </select>
                 
-                <label for="category-select" style="margin-top: 1rem;">Choose Material</label>
-                <select id="category-select">
-                    <option value="" selected disabled >Select Material</option>
-                    {% for material in materials %}
-                    <option value="{{ material.name }}">{{ material.name }}</option>
+                <label for="category-select" style="margin-top: 1rem;">Choose Material: </label>
+                <select name="material_type" onchange="this.form.submit()">
+                    <option value="" disabled {% if not selected_material_type %}selected{% endif %} >Select Material</option>
+                    {% for material_type in material_types %}
+                    <option value="{{ material_type.name }}" {% if selected_material_type.name == material_type.name %} selected {% endif %}>{{ material_type.name }}</option>
                     {% endfor %}
                 </select>
             </form>
         </div>
 
-        <div id="data-container" class="data-container"></div>
-    </div>
-
+        <div id="data-container" class="data-container">
+            {% for material_instance in material_instances %}
+                <div class="item" id="material_instance_item">
+                    {% for key, value in material_instance.material_data.items %}
+                        <div class="field">
+                                <label for="{{ key }}">{{ key }}</label>
+                                <input type="text" id="{{ key }}" name="{{ key }}" value="{{ value }}">
+                        </div>
+                    {% endfor %}
+                        <div class="actions">
+                            <button hx-post="{% url 'delete_material_instance' material_instance.id %}" hx-target="#material_instance_item" hx-swap="outerHTML">Delete</button>
+                        </div> 
+                    </div>
+                
+                    {% endfor %}
+        </div>
+<!-- 
 <script>
     let currentFile = '';
     let currentData = null;
@@ -399,7 +413,10 @@
         }).then(() => console.log("Data saved successfully."))
           .catch(error => console.error("Error saving data:", error));
     }
-</script>
+</script> -->
+
+
+<script src="https://unpkg.com/htmx.org@1.9.2"></script>
 
 
 

@@ -213,7 +213,40 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Concrete -->
+        {% for material, material_item in grouped_materials.items %}
+                
+        <tr>
+            <td>
+                <input type="number" id="concreteQty" class="quantity-input" min="0">
+            </td>
+
+            <td>
+                {{material}}
+           </td>   
+
+           <td>
+               <select id="{{material_item}}Select">
+               {% for item in material_item %}
+                 <option value="">{{item.material_data.name}}</option>
+                 {% endfor %}
+                </select>
+            </td> 
+
+            <td>
+                {% for item in material_item %}
+                {{item.material_data.price}}
+                {% endfor %}
+            </td>
+
+            <td>
+                <input type="checkbox" id="concreteTax" class="tax-checkbox">
+            </td>
+
+            <td id="concreteTotal">$7.00</td>
+        </tr>
+    
+        {% endfor %}
+
         <tr>
           <td><input type="number" id="concreteQty" class="quantity-input" min="0" value="0"></td>
           <td>Concrete</td>
@@ -221,146 +254,6 @@
           <td id="concretePrice">$0.00</td>
           <td><input type="checkbox" id="concreteTax" class="tax-checkbox"></td>
           <td id="concreteTotal">$0.00</td>
-        </tr>
-
-        <!-- Terminal Posts -->
-        <tr>
-          <td><input type="number" id="terminalPostsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Terminal Posts</td>
-          <td><select id="terminalPostsSelect"></select></td>
-          <td id="terminalPostsPrice">$0.00</td>
-          <td><input type="checkbox" id="terminalPostsTax" class="tax-checkbox"></td>
-          <td id="terminalPostsTotal">$0.00</td>
-        </tr>
-
-        <!-- Terminal Caps -->
-        <tr>
-          <td><input type="number" id="terminalCapsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Terminal Caps</td>
-          <td><select id="terminalCapsSelect"></select></td>
-          <td id="terminalCapsPrice">$0.00</td>
-          <td><input type="checkbox" id="terminalCapsTax" class="tax-checkbox"></td>
-          <td id="terminalCapsTotal">$0.00</td>
-        </tr>
-
-        <!-- Line Posts -->
-        <tr>
-          <td><input type="number" id="linePostsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Line Posts</td>
-          <td><select id="linePostsSelect"></select></td>
-          <td id="linePostsPrice">$0.00</td>
-          <td><input type="checkbox" id="linePostsTax" class="tax-checkbox"></td>
-          <td id="linePostsTotal">$0.00</td>
-        </tr>
-
-        <!-- Line Post Caps -->
-        <tr>
-          <td><input type="number" id="linePostCapsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Line Post Caps</td>
-          <td><select id="linePostCapsSelect"></select></td>
-          <td id="linePostCapsPrice">$0.00</td>
-          <td><input type="checkbox" id="linePostCapsTax" class="tax-checkbox"></td>
-          <td id="linePostCapsTotal">$0.00</td>
-        </tr>
-
-        <!-- Top Rail -->
-        <tr>
-          <td><input type="number" id="topRailQty" class="quantity-input" min="0" value="0"></td>
-          <td>Top Rail</td>
-          <td><select id="topRailSelect"></select></td>
-          <td id="topRailPrice">$0.00</td>
-          <td><input type="checkbox" id="topRailTax" class="tax-checkbox"></td>
-          <td id="topRailTotal">$0.00</td>
-        </tr>
-
-        <!-- Mesh -->
-        <tr>
-          <td><input type="number" id="meshQty" class="quantity-input" min="0" value="0"></td>
-          <td>Mesh</td>
-          <td><select id="meshSelect"></select></td>
-          <td id="meshPrice">$0.00</td>
-          <td><input type="checkbox" id="meshTax" class="tax-checkbox"></td>
-          <td id="meshTotal">$0.00</td>
-        </tr>
-
-        <!-- Tension Bars -->
-        <tr>
-          <td><input type="number" id="tensionBarsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Tension Bars</td>
-          <td><select id="tensionBarsSelect"></select></td>
-          <td id="tensionBarsPrice">$0.00</td>
-          <td><input type="checkbox" id="tensionBarsTax" class="tax-checkbox"></td>
-          <td id="tensionBarsTotal">$0.00</td>
-        </tr>
-
-        <!-- Tension Bands -->
-        <tr>
-          <td><input type="number" id="tensionBandsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Tension Bands</td>
-          <td><select id="tensionBandsSelect"></select></td>
-          <td id="tensionBandsPrice">$0.00</td>
-          <td><input type="checkbox" id="tensionBandsTax" class="tax-checkbox"></td>
-          <td id="tensionBandsTotal">$0.00</td>
-        </tr>
-
-        <!-- Brace Bands -->
-        <tr>
-          <td><input type="number" id="braceBandsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Brace Bands</td>
-          <td><select id="braceBandsSelect"></select></td>
-          <td id="braceBandsPrice">$0.00</td>
-          <td><input type="checkbox" id="braceBandsTax" class="tax-checkbox"></td>
-          <td id="braceBandsTotal">$0.00</td>
-        </tr>
-
-        <!-- Top Rail Ends -->
-        <tr>
-          <td><input type="number" id="topRailEndsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Top Rail Ends</td>
-          <td><select id="topRailEndsSelect"></select></td>
-          <td id="topRailEndsPrice">$0.00</td>
-          <td><input type="checkbox" id="topRailEndsTax" class="tax-checkbox"></td>
-          <td id="topRailEndsTotal">$0.00</td>
-        </tr>
-
-        <!-- Tension Wire -->
-        <tr>
-          <td><input type="number" id="tensionWireQty" class="quantity-input" min="0" value="0"></td>
-          <td>Tension Wire</td>
-          <td><select id="tensionWireSelect"></select></td>
-          <td id="tensionWirePrice">$0.00</td>
-          <td><input type="checkbox" id="tensionWireTax" class="tax-checkbox"></td>
-          <td id="tensionWireTotal">$0.00</td>
-        </tr>
-
-        <!-- Hog Ties -->
-        <tr>
-          <td><input type="number" id="hogTiesQty" class="quantity-input" min="0" value="0"></td>
-          <td>Hog Ties</td>
-          <td><select id="hogTiesSelect"></select></td>
-          <td id="hogTiesPrice">$0.00</td>
-          <td><input type="checkbox" id="hogTiesTax" class="tax-checkbox"></td>
-          <td id="hogTiesTotal">$0.00</td>
-        </tr>
-
-        <!-- Truss Bars-->
-        <tr>
-          <td><input type="number" id="trussBarsQty" class="quantity-input" min="0" value="0"></td>
-          <td>Truss Bars</td>
-          <td><select id="trussBarsSelect"></select></td>
-          <td id="trussBarsPrice">$0.00</td>
-          <td><input type="checkbox" id="trussBarsTax" class="tax-checkbox"></td>
-          <td id="trussBarsTotal">$0.00</td>
-        </tr>
-
-        <!-- Barb Wire -->
-        <tr>
-          <td><input type="number" id="barbWireQty" class="quantity-input" min="0" value="0"></td>
-          <td>Barb Wire</td>
-          <td><select id="barbWireSelect"></select></td>
-          <td id="barbWirePrice">$0.00</td>
-          <td><input type="checkbox" id="barbWireTax" class="tax-checkbox"></td>
-          <td id="barbWireTotal">$0.00</td>
         </tr>
 
 

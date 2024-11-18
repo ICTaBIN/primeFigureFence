@@ -17,7 +17,7 @@
         "model": "FenceApp.materialcategory",
         "pk": 3,
         "fields": {
-            "name": "Chainlink"
+            "name": "ChainLink"
         }
     },
     {
@@ -28,7 +28,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 1,
         "fields": {
             "category": 1,
@@ -36,7 +36,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 2,
         "fields": {
             "category": 1,
@@ -44,7 +44,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 3,
         "fields": {
             "category": 1,
@@ -52,7 +52,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 4,
         "fields": {
             "category": 1,
@@ -60,7 +60,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 5,
         "fields": {
             "category": 1,
@@ -68,7 +68,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 6,
         "fields": {
             "category": 1,
@@ -76,7 +76,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 7,
         "fields": {
             "category": 2,
@@ -84,7 +84,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 8,
         "fields": {
             "category": 2,
@@ -92,7 +92,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 9,
         "fields": {
             "category": 2,
@@ -100,7 +100,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 10,
         "fields": {
             "category": 2,
@@ -108,7 +108,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 11,
         "fields": {
             "category": 2,
@@ -116,7 +116,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 12,
         "fields": {
             "category": 3,
@@ -124,7 +124,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 13,
         "fields": {
             "category": 3,
@@ -132,7 +132,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 14,
         "fields": {
             "category": 3,
@@ -140,7 +140,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 15,
         "fields": {
             "category": 3,
@@ -148,7 +148,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 16,
         "fields": {
             "category": 3,
@@ -156,7 +156,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 17,
         "fields": {
             "category": 3,
@@ -164,7 +164,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 18,
         "fields": {
             "category": 3,
@@ -172,7 +172,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 19,
         "fields": {
             "category": 3,
@@ -180,7 +180,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 20,
         "fields": {
             "category": 3,
@@ -188,7 +188,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 21,
         "fields": {
             "category": 3,
@@ -196,7 +196,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 22,
         "fields": {
             "category": 3,
@@ -204,7 +204,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 23,
         "fields": {
             "category": 3,
@@ -212,7 +212,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 24,
         "fields": {
             "category": 3,
@@ -220,7 +220,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 25,
         "fields": {
             "category": 3,
@@ -228,7 +228,7 @@
         }
     },
     {
-        "model": "FenceApp.material",
+        "model": "FenceApp.materialtype",
         "pk": 26,
         "fields": {
             "category": 3,

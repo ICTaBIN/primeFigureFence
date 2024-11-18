@@ -1,0 +1,13 @@
+
+    <form hx-post="{% url 'add_material_instance' %}" hx-target="#add_new_item"  hx-swap="outerHTML">
+        <div class="item">
+        {% for key, value in material_data.items %}
+        <div class="field">
+            <label for="{{ key }}">{{ key }}</label>
+            <input type="text" name="{{ key }}" value="{{ value }}aa" required>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="add-button">Add New Item</button>
+    </form>
+

@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
+from collections import defaultdict
 from django.http import JsonResponse
 from .utils import *
 # from flask import Flask, render, request, JsonResponse, send_from_directory
@@ -9,7 +11,7 @@ from functools import wraps
 from typing import Dict, Any, Callable
 import logging
 import uuid
-from .models import Customer, Company, LaborRate, OverheadRates, Proposal, MaterialCategory, Material
+from .models import Customer, Company, LaborRate, OverheadRates, Proposal, MaterialCategory, MaterialType, Material
 
 import base64
 from django.contrib import messages
@@ -183,19 +185,79 @@ def view_proposal(request, proposal_id):
 
 
 def pricing(request):
+
     # all available material categories
     all_categories = MaterialCategory.objects.all()
 
     # lookup chosen category in database
     user_selected_category= request.GET.get('material_category',None)
-    print(user_selected_category)
     category = MaterialCategory.objects.get(name=user_selected_category) if user_selected_category else None
-    # print(category)
 
-    materials = Material.objects.filter(category = category) if category else None
-    print('found materails ',materials)
-    context = {'material_categories': all_categories,'selected_category': user_selected_category, 'materials': materials}
+    # all materials of that specific category
+    material_types = MaterialType.objects.filter(category = category) if category else None
+
+    # lookup chosen material instances in database
+    user_selected_material_type = request.GET.get('material_type',None)
+    print('going for serach')
+    material_type = MaterialType.objects.filter(name=user_selected_material_type, category=category) if user_selected_material_type else None
+    print(material_type,'is the material type')
+    selected_materials = None
+    if material_type:
+        selected_materials = Material.objects.filter(material_type__in=material_type)
+    
+    print(selected_materials,'are the selected materials')
+    
+
+
+    
+    context = {
+        'material_categories': all_categories,
+        'selected_category': user_selected_category,
+        'material_types': material_types,
+        'selected_material_type' : material_type,
+        'material_instances' : selected_materials
+        
+        }
     return render(request,'pricing.html', context=context) #files=files
+
+
+@csrf_exempt
+def delete_material_instance(request, material_instance_id):
+
+    try:
+        # Ensure the Material instance exists before deleting
+        material_instance = Material.objects.get(id=material_instance_id)
+        material_instance.delete()  # Delete the material instance
+
+        # Show success message
+        messages.success(request, "Material was deleted!", extra_tags="success")
+    except Material.DoesNotExist:
+        # Handle case where material with the given ID doesn't exist
+        messages.error(request, "Material not found.", extra_tags="error")
+
+    return render(request, 'partials/message.html')
+
+
+
+
+# @csrf_exempt
+# def add_material_instance(request):
+#     material_data = request.POST.dict()
+#     print('is the matearifdasa', material_data)
+#     material_type_id =  material_data.get("material_type_id",None)
+#     print(material_type_id,'is therf io jisftype id')
+#     material_type = MaterialType.objects.get("material_type_id")
+#     print(material_type)
+
+#     material_data.pop("material_type_id")
+#     Material(material_data=material_data, material_type = material_type)
+
+
+
+#     print(material_data)
+#     return render(request,'partials/item.html', context = {"material_data" : material_data})
+
+
 
 
 
@@ -226,12 +288,39 @@ def drawing_tool(request):
 
 
 def wood_fence(request):
-    return render(request, 'wood_fence.html')
+    material_category= MaterialCategory.objects.get(name='WoodFence')
+
+    wood_fence_materials = MaterialType.objects.filter(category=material_category)
+
+    grouped_materials  = {}
+    for material in wood_fence_materials:
+        grouped_materials[material.name]  = material.material_set.all()
+
+
+    context={
+        "wood_fence_materials" : wood_fence_materials,
+        "grouped_materials" : grouped_materials
+            }
+
+    return render(request, 'wood_fence.html',context=context)
 
 
 
 def chain_link_fence(request):
-    return render(request,"chainlink_fence.html")
+
+    material_category= MaterialCategory.objects.get(name='ChainLink')
+    wood_fence_materials = MaterialType.objects.filter(category=material_category)
+
+    grouped_materials  = {}
+    for material in wood_fence_materials:
+        grouped_materials[material.name]  = material.material_set.all()
+
+
+    context={
+        "wood_fence_materials" : wood_fence_materials,
+        "grouped_materials" : grouped_materials
+            }
+    return render(request,"chainlink_fence.html",context=context)
 
 
 
