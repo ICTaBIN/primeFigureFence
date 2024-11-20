@@ -45,7 +45,7 @@ python manage.py runserver
 
 
 
-
+## git Related Guide continues from step-2
 
 3. Once inside your directory, Check if git folder exists by running status command
    ```
