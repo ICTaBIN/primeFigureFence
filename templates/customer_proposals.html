@@ -62,11 +62,7 @@
     </style>
 </head>
 <body>
-<<<<<<< HEAD
     <a href="{% url 'customer_list' %}" class="back-button">← Back to Customer List</a>
-=======
-    <a href="/customer_list" class="back-button">← Back to Customer List</a>
->>>>>>> f0683729f9c5a09a822c6642450b44ed2b14381e
 
     <h1>Customer Proposals</h1>
 
@@ -78,17 +74,19 @@
     </div>
 
     <div class="proposals-grid">
-        {% for proposal_id, proposal in proposals.items() %}
+        {% if proposals %}
+        {% for proposal in proposals %}
         <div class="proposal-card">
-            <h3>Proposal #{{ proposal_id[:8] }}</h3>
+            <h3>Proposal #{{ proposal.id }}</h3>
             <p><strong>Fence Height:</strong> {{ proposal.height }}ft</p>
             <p><strong>Total Length:</strong> {{ proposal.totalLinearFeet }}ft</p>
             <p><strong>Total Cost:</strong> ${{ proposal.total }}</p>
-            <a href="/proposal/{{ proposal_id }}" class="button">View Proposal</a>
+            <a href="{% url 'proposal' proposal.id %}" class="button">View Proposal</a>
         </div>
+        {% endfor %}
         {% else %}
         <p>No proposals found for this customer.</p>
-        {% endfor %}
+        {% endif %}
     </div>
 </body>
 </html>

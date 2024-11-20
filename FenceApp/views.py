@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from collections import defaultdict
+from itertools import chain
 from django.http import JsonResponse
 from .utils import *
 # from flask import Flask, render, request, JsonResponse, send_from_directory
@@ -113,23 +114,17 @@ def company_settings(request, company_id):
 def dashboard(request):
     return render(request,'dashboard.html')
 
-
+@csrf_exempt
 def create_proposal(request):
     print("just before try")
     try:
         # Get data from request
-        data = request.POST
-        customer_id = data.get('customer_id')
+        # data = request.POST
+        data = json.loads(request.body)
+        print(data.get('height'), 'i got the data')
+        customer_id = request.session.get('customer_id')
         customer = Customer.objects.get(id=customer_id)
 
-        # Create Style instance
-        style = Style.objects.create(
-            pickets=data.get('style[pickets]', ''),
-            posts=data.get('style[posts]', ''),
-            rails=data.get('style[rails]', ''),
-            fasteners=data.get('style[fasteners]', ''),
-            gates=data.get('style[gates]', '')
-        )
 
         # Convert numeric strings to floats explicitly
         total = float(data.get('total', '0').replace('$', '').strip())
@@ -140,7 +135,7 @@ def create_proposal(request):
         proposal = Proposal.objects.create(
             customer=customer,
             height=data.get('height', ''),
-            style=style,
+            style=data.get('style',{}),
             gates=data.get('gates', '0'),
             total_linear_feet=data.get('totalLinearFeet', '0'),
             corner_posts=data.get('cornerPosts', '0'),
@@ -153,6 +148,7 @@ def create_proposal(request):
             total=total,
             drawing=data.get('drawing', '')
         )
+        print(data.get('drawing'))
 
         return JsonResponse({"proposal_id": proposal.id})
 
@@ -164,23 +160,75 @@ def create_proposal(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 
+# def view_proposal(request, proposal_id):
+#     # try:
+#     proposal = get_object_or_404(Proposal, id=proposal_id)
+#     customer = proposal.customer
+#     company = Company.objects.first()
+
+#     overhead_rates = OverheadRates.objects.get(company=company)
+#     total = float(str(proposal.get('total', '0')).replace('$', '').strip())
+#     tax = float(str(proposal.get('tax', '0')).replace('$', '').strip())
+#     subtotal = total - tax
+#     materialCost = float(str(proposal.get('materialCost', '0')).replace('$', '').strip()),
+#     laborCost = float(str(proposal.get('laborCost', '0')).replace('$', '').strip())
+
+#     proposal['total'] = total
+#     proposal['tax'] = tax
+#     proposal['subtotal'] = subtotal
+#     proposal['materialCost'] = materialCost
+#     proposal['laborCost'] = laborCost
+
+#     proposal.save()
+
+#     context = {
+#         'proposal': proposal,
+#         'customer': customer,
+#         'company': company,
+#         'proposal' : proposal
+#     }
+#     return render(request, 'proposal1.html', context)
+#     # except Exception as e:
+#     #     logger.error(f"Error viewing proposal: {e}")
+#     #     messages.error(request, f"Error viewing proposal: {str(e)}")
+#     #     return redirect('dashboard')
+
 def view_proposal(request, proposal_id):
     try:
         proposal = get_object_or_404(Proposal, id=proposal_id)
         customer = proposal.customer
         company = Company.objects.first()
 
+
+        # Access model fields correctly
+        total = float(str(proposal.total).replace('$', '').strip() or '0')
+        tax = float(str(proposal.tax).replace('$', '').strip() or '0')
+        materialCost = float(str(proposal.material_cost).replace('$', '').strip() or '0')
+        laborCost = float(str(proposal.labor_cost).replace('$', '').strip() or '0')
+
+        # Calculate subtotal
+        subtotal = total - tax
+
+        # Update proposal values
+        proposal.total = total
+        proposal.tax = tax
+        proposal.subtotal = subtotal
+        proposal.material_cost = materialCost
+        proposal.labor_cost = laborCost
+
+        proposal.save()
+
         context = {
             'proposal': proposal,
             'customer': customer,
-            'company': company
+            'company': company,
         }
         return render(request, 'proposal1.html', context)
+
     except Exception as e:
         logger.error(f"Error viewing proposal: {e}")
         messages.error(request, f"Error viewing proposal: {str(e)}")
         return redirect('dashboard')
-
 
 
 
@@ -276,20 +324,74 @@ def save_data(request, filename: str):
 
 
 
-def get_material_file(request, filename: str):
-    print('file requested: ',filename)
-    return send_from_directory(PRICING_DIR, filename)
+def get_material_file(request, filename: str):  # filename refers to material category
+
+    # category = MaterialCategory.objects.get(name=filename)
+    # types = MaterialType.objects.filter(category=category)
+    # materials = [type.material_set.all().values() for type in types]
+    # print("\n\n")
+    # print(list(materials))
+    # print("\n\n")
+    category = MaterialCategory.objects.get(name=filename)
+    types = MaterialType.objects.filter(category=category)
+
+    # Flatten the materials list
+    materials = list(chain.from_iterable(type.material_set.all().values() for type in types))
+
+    # Print the flattened materials
+    print("\n\n")
+    print(materials)  # Now it's a flat list of dictionaries
+    print("\n\n")
+
+    return JsonResponse(materials, safe=False) #send_from_directory(PRICING_DIR, filename)
 
 
 
 def drawing_tool(request):
-    return render(request,"drawingtool.html")
+    customer_id = request.GET.get('customer_id')
+    request.session['customer_id'] = customer_id
+    print('customer_id passed to drawing tool',customer_id)
+    return render(request,"drawingtool.html",context={"customer_id" : customer_id})
 
 
 
 def wood_fence(request):
+    print(request.POST)
     material_category= MaterialCategory.objects.get(name='WoodFence')
 
+    wood_fence_materials = MaterialType.objects.filter(category=material_category)
+
+    grouped_materials  = {}
+    for material in wood_fence_materials:
+        grouped_materials[material.name]  = material.material_set.all()
+    
+    company = Company.objects.first()
+
+
+    labor_rate = LaborRate.objects.get(fence_type='wood_privacy', height='6', company=company)
+    overhead_rates = OverheadRates.objects.get(company=company)
+    
+
+    print(labor_rate,'was the labor_rate')
+    print(overhead_rates)
+    
+
+
+    context={
+        "grouped_materials" : grouped_materials,
+        "labor_rate" : labor_rate,
+        "overhead_rates" : {"tax_rate" : overhead_rates.tax_rate*100,
+                             "margin_percent" : (1-overhead_rates.profit_margin) *100 
+                           }
+            }
+
+    return render(request, 'wood_fence.html',context=context)
+
+
+
+def iron_fence(request):
+
+    material_category= MaterialCategory.objects.get(name='IronFence')
     wood_fence_materials = MaterialType.objects.filter(category=material_category)
 
     grouped_materials  = {}
@@ -298,13 +400,9 @@ def wood_fence(request):
 
 
     context={
-        "wood_fence_materials" : wood_fence_materials,
         "grouped_materials" : grouped_materials
             }
-
-    return render(request, 'wood_fence.html',context=context)
-
-
+    return render(request,'iron_fence.html',context=context)
 
 def chain_link_fence(request):
 
@@ -317,7 +415,6 @@ def chain_link_fence(request):
 
 
     context={
-        "wood_fence_materials" : wood_fence_materials,
         "grouped_materials" : grouped_materials
             }
     return render(request,"chainlink_fence.html",context=context)

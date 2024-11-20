@@ -1,0 +1,290 @@
+/* Wood fence calculator styles */
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --success: #059669;
+    --success-hover: #047857;
+    --background: #eef2ff;
+    --card: #ffffff;
+    --text: #1e1b4b;
+    --text-secondary: #4338ca;
+    --border: #c7d2fe;
+    --accent: #818cf8;
+    --panel-bg-left: #e0e7ff;
+    --panel-bg-right: #ede9fe;
+    --shadow-light: #4338ca;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.back-button:hover {
+    color: var(--primary);
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+}
+
+.summary-item {
+    background: var(--card);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-light);
+    border: 2px solid var(--border);
+}
+
+.summary-item label {
+    display: block;
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+input[type="text"],
+input[type="number"],
+.quantity-input,
+.summary-item input {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.3rem 0.5rem;
+    border: 2px solid var(--border);
+    border-radius: 0.5rem;
+    background-color: var(--card);
+    color: var(--text);
+    box-shadow: 0 2px 4px var(--shadow-light);
+    width: 100%;
+}
+
+.materials-section {
+    background: var(--card);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-light);
+    border: 2px solid var(--border);
+    margin-bottom: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0.5rem 0;
+}
+
+/* Add styling for the resizable table */
+#materialsTable {
+    width: 100%;
+    border-collapse: collapse;
+    position: relative; /* Ensures resizer alignment */
+}
+
+/* Styling for resizer handle */
+.resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    background-color: var(--border); /* Uses the border color variable */
+    z-index: 1;
+}
+
+/* Styles for table headers */
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+}
+
+/* Ensure resizers align properly within header cells */
+th {
+    position: relative; /* Needed for resizer alignment */
+    padding-right: 10px; /* Add padding for resizers */
+    font-weight: 800;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 1rem;
+    background-color: var(--panel-bg-left);
+}
+
+td {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+td:first-child {
+    padding: 0.1rem;
+    text-align: center;
+    width: 40px;
+}
+
+.quantity-input {
+    width: 100%; /* Make it fill the QTY column */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    padding: 0.2rem; /* Adjust padding for a more compact look */
+    font-size: 1rem; /* Adjust font size if necessary */
+    text-align: center;
+    border: 2px solid var(--border); /* Ensure it matches the table style */
+    border-radius: 0.5rem; /* Keep consistent styling */
+}
+
+select {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.3rem 0.5rem;
+    border: 2px solid var(--border);
+    border-radius: 0.5rem;
+    background-color: var(--card);
+    color: var(--text);
+    box-shadow: 0 2px 4px var(--shadow-light);
+    width: 100%;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: var(--card);
+    color: var(--text);
+    border: 2px solid var(--border);
+}
+
+.calculations-wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.rates-section,
+.totals-section {
+    flex: 1;
+    background: var(--panel-bg-left);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--border);
+}
+
+.rate-item,
+.total-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    max-width: 100%;      /* Restrict the width to fit within the container */
+    width: 100%;          /* Make it responsive to the container's width */
+    box-sizing: border-box; /* Include padding and border in the element's width */
+    padding: 0.25rem;     /* Adjust padding to fit well within the container */
+
+}
+
+#laborRate {
+    max-width: 80px; /* Set the maximum width for the input */
+    width: 100%; /* Ensure it adjusts to fit within the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+#taxRate {
+    max-width: 80px; /* Set the maximum width for the input */
+    width: 100%; /* Ensure it adjusts to fit within the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+#marginPercent {
+    max-width: 80px; /* Set the maximum width for the input */
+    width: 100%; /* Ensure it adjusts to fit within the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.final-total {
+    background: var(--primary);
+    color: white;
+    text-align: right;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-top: 0.75rem;
+    font-weight: 700;
+}
+
+#drawing-preview {
+    border: 2px solid var(--border);
+    background-color: white;
+    margin-top: 1rem;
+    width: 100%;
+    height: 300px;
+}
+
+@media (max-width: 768px) {
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .calculations-wrapper {
+        flex-direction: column;
+    }
+
+    .button-group {
+        flex-wrap: wrap;
+    }
+
+    .rate-input-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tax-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tax-checkbox-wrapper label {
+    font-size: 0.8rem;
+    color: var(--text);
+}
+}

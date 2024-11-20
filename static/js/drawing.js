@@ -35,7 +35,9 @@ class DrawingCanvas {
         this.bindEvents();
         document.getElementById('calculateMaterials').addEventListener('click', () => {
         const fenceType = document.getElementById('fenceType').value;
+
         const params = new URLSearchParams({
+            // customerId: document.getElementById('customer_id').textContent,
             totalFeet: document.getElementById('totalFeet').textContent,
             cornerPosts: document.getElementById('cornerPosts').textContent,
             endPosts: document.getElementById('endPosts').textContent,
@@ -63,7 +65,8 @@ class DrawingCanvas {
             alert("Please select a valid fence type.");
             return;
         }
-
+        console.log(params)
+        console.log(params.toString())
         window.location.href = `${redirectUrl}?${params.toString()}`;
     });
 

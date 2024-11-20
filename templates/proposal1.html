@@ -67,7 +67,7 @@
     <div id="proposal-content">
         <div class="header">
             {% if company and company.logo %}
-                <img src="{{ company.logo }}" alt="Company Logo" class="company-logo">
+                <img src="{{ company.logo.url }}" alt="Company Logo" class="company-logo">
             {% endif %}
             <h1>Fence Installation Estimate</h1>
         </div>
@@ -131,7 +131,8 @@
         <div class="section drawing-section">
             <h2>Fence Layout</h2>
             <p>Below is a layout of your proposed fence installation:</p>
-            <img src="data:image/png;base64,{{ proposal.drawing | replace('data:image/png;base64,', '') }}" alt="Fence Layout">
+
+            <img src="data:image/png;base64,{{ proposal.drawing }}" alt="Fence Layout">
         </div>
 
         <div class="section">
@@ -146,9 +147,10 @@
                 <tbody>
                     <tr>
                         <td>Materials, Labor & Overhead</td>
-                        <td>$<span class="cost">{{ (proposal.total - proposal.tax) }}</span></td>
+                        <td>$<span class="cost">{{ proposal.subtotal }}</span></td>
                     </tr>
                     {% if proposal.tax and proposal.tax != "0.00" %}
+                    
                     <tr>
                         <td>Tax</td>
                         <td>$<span class="cost">{{ proposal.tax }}</span></td>

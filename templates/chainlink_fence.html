@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "base-templates/base-fence.html" %}
 {% load static %}
 
-{% block title %}Chainlink Fence Calculator{% endblock %}
+{% block title %}Chainlink Fence{% endblock %}
 
 {% block styles %}
     <link rel="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
@@ -144,183 +144,9 @@
 </style>
 {% endblock %}
 
-{% block content %}
-<div class="container">
-  <a href="#" class="back-button" onclick="window.history.back(); return false;">← Back to Drawing Tool</a>
 
-  <h1>Chainlink Fence Calculator</h1>
+  <h1>{% block heading %}Chainlink Fence{% endblock %}</h1>
 
-  <div class="summary-grid">
-    <div class="summary-item">
-      <label for="totalLinearFeet">Total Linear Feet</label>
-      <input type="number" id="totalLinearFeet" min="0" value="0">
-    </div>
-
-    <div class="summary-item">
-      <label for="height">Fence Height (ft)</label>
-      <select id="height">
-        <option value="4">4 ft</option>
-        <option value="5">5 ft</option>
-        <option value="6">6 ft</option>
-        <option value="8">8 ft</option>
-      </select>
-    </div>
-
-    <div class="summary-item">
-      <label for="totalGates">Gates</label>
-      <input type="number" id="totalGates" min="0" value="0">
-    </div>
-
-    <div class="summary-item">
-      <label for="totalCornerPosts">Corner Posts</label>
-      <input type="number" id="totalCornerPosts" min="0" value="0">
-    </div>
-
-    <div class="summary-item">
-      <label for="totalEndPosts">End Posts</label>
-      <input type="number" id="totalEndPosts" min="0" value="0">
-    </div>
-
-    <div class="summary-item">
-      <label for="totalLinePosts">Line Posts</label>
-      <input type="number" id="totalLinePosts" min="0" value="0">
-    </div>
-  </div>
-
-  <div class="tax-controls">
-    <div class="tax-options">
-      <label>
-        <input type="checkbox" id="materialsTaxable">
-        Materials Taxable
-      </label>
-      <label>
-        <input type="checkbox" id="laborTaxable">
-        Labor Taxable
-      </label>
-    </div>
-  </div>
-
-<div class="materials-section">
-    <table id="materialsTable">
-      <thead>
-        <tr>
-          <th>QTY</th>
-          <th>Item</th>
-          <th>Style/Type</th>
-          <th>Unit Price</th>
-          <th>Tax</th>
-          <th>Total Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for material, material_item in grouped_materials.items %}
-                
-        <tr>
-            <td>
-                <input type="number" id="concreteQty" class="quantity-input" min="0">
-            </td>
-
-            <td>
-                {{material}}
-           </td>   
-
-           <td>
-               <select id="{{material_item}}Select">
-               {% for item in material_item %}
-                 <option value="">{{item.material_data.name}}</option>
-                 {% endfor %}
-                </select>
-            </td> 
-
-            <td>
-                {% for item in material_item %}
-                {{item.material_data.price}}
-                {% endfor %}
-            </td>
-
-            <td>
-                <input type="checkbox" id="concreteTax" class="tax-checkbox">
-            </td>
-
-            <td id="concreteTotal">$7.00</td>
-        </tr>
-    
-        {% endfor %}
-
-        <tr>
-          <td><input type="number" id="concreteQty" class="quantity-input" min="0" value="0"></td>
-          <td>Concrete</td>
-          <td><select id="concreteSelect"></select></td>
-          <td id="concretePrice">$0.00</td>
-          <td><input type="checkbox" id="concreteTax" class="tax-checkbox"></td>
-          <td id="concreteTotal">$0.00</td>
-        </tr>
-
-
-      </tbody>
-    </table>
-
-    <div class="button-group">
-      <button id="addCustomRow">+ Add Custom Item</button>
-      <button id="save-template">Save Template</button>
-      <button id="load-template">Load Template</button>
-    </div>
-</div>
-  <div class="calculations-wrapper">
-    <div class="rates-section">
-      <div class="rate-item">
-        <label for="laborRate">Labor Rate (per ft)</label>
-        <div class="rate-input-group">
-          <input type="number" id="laborRate" min="0" step="0.01" value="0.00">
-        </div>
-      </div>
-
-      <div class="rate-item">
-        <label for="taxRate">Tax Rate (%)</label>
-        <input type="number" id="taxRate" min="0" step="0.1" value="0.0">
-      </div>
-
-      <div class="rate-item">
-        <label for="marginPercent">Margin Percent</label>
-        <input type="number" id="marginPercent" min="0" step="0.1" value="0.0">
-      </div>
-    </div>
-
-    <div class="totals-section">
-      <div class="total-item">
-        <span class="total-label">Material Cost</span>
-        <div class="total-amount">$<span id="materialCost">0.00</span></div>
-      </div>
-
-      <div class="total-item">
-        <span class="total-label">Labor Cost</span>
-        <div class="total-amount">$<span id="laborCost">0.00</span></div>
-      </div>
-
-      <div class="total-item">
-        <span class="total-label">Overhead</span>
-        <div class="total-amount">$<span id="profitAmount">0.00</span></div>
-      </div>
-
-      <div class="total-item">
-        <span class="total-label">Tax</span>
-        <div class="total-amount">$<span id="taxCost">0.00</span></div>
-      </div>
-
-      <div class="final-total">
-        Total Cost: $<span id="totalCost">0.00</span>
-      </div>
-    </div>
-  </div>
-     <button id="viewProposalBtn">View Proposal</button>
-    <canvas id="drawing-preview"></canvas>
-
-  <!-- Hidden inputs for drawing data -->
-  <input type="hidden" id="scale" value="1">
-  <input type="hidden" id="postSpacing" value="8">
-  <input type="hidden" id="drawingData" value="">
-</div>
-{% endblock %}
 
 {% block scripts %}
 <script src="{% static 'js/resize.js' %}"></script>
@@ -329,6 +155,77 @@
 <script src="{% static 'js/drawing.js' %}"></script>
 <script src="{% static 'js/chainlink-fence.js' %}"></script>
 <script type="module" src="{% static 'js/templates.js' %}"></script>
+
+
+
+<script>
+  // Define variables to keep track of quantities
+  var BarbWireQty = 0;
+  var BraceBandsQty = 0;
+  var ConcreteQty = 0;
+  var HogTiesQty = 0;
+  var LinePostCapsQty = 0;
+  var LinePostsQty = 0;
+  var MeshQty = 0;
+  var TensionBandsQty = 0;
+  var TensionBarsQty = 0;
+  var TensionWireQty = 0;
+  var TerminalCapsQty = 0;
+  var TerminalPostsQty = 0;
+  var TopRailQty = 0;
+  var TopRailEndsQty = 0;
+  var TrussBarsQty = 0;
+
+  // Function to handle price updates based on dropdown selection
+  function updatePrice(selectElement) {
+      var selectedOption = selectElement.options[selectElement.selectedIndex];
+      var material = selectedOption.getAttribute('material-type');
+      var price = parseFloat(selectedOption.getAttribute('material-price')) || 0;
+
+      console.log(`Material: ${material}, Price: ${price}`);
+
+      // Update the price display element
+      document.getElementById(`${material}Price`).textContent = '$' + price.toFixed(2);
+
+      // Calculate total using the respective quantity
+      var quantity = eval(`${material}Qty`) || 0; // Access the respective quantity variable
+      document.getElementById(`${material}Total`).textContent = '$' + (price * quantity).toFixed(2);
+  }
+
+  // Function to handle quantity changes
+  function qtyChange(element) {
+      var quantity = parseInt(element.value) || 0; // Default to 0 if invalid
+      console.log("Quantity changed to:", quantity);
+
+      // Update the respective quantity variable
+      if (element.id === "BarbWireQty") BarbWireQty = quantity;
+      if (element.id === "BraceBandsQty") BraceBandsQty = quantity;
+      if (element.id === "ConcreteQty") ConcreteQty = quantity;
+      if (element.id === "HogTiesQty") HogTiesQty = quantity;
+      if (element.id === "LinePostCapsQty") LinePostCapsQty = quantity;
+      if (element.id === "LinePostsQty") LinePostsQty = quantity;
+      if (element.id === "MeshQty") MeshQty = quantity;
+      if (element.id === "TensionBandsQty") TensionBandsQty = quantity;
+      if (element.id === "TensionBarsQty") TensionBarsQty = quantity;
+      if (element.id === "TensionWireQty") TensionWireQty = quantity;
+      if (element.id === "TerminalCapsQty") TerminalCapsQty = quantity;
+      if (element.id === "TerminalPostsQty") TerminalPostsQty = quantity;
+      if (element.id === "TopRailQty") TopRailQty = quantity;
+      if (element.id === "TopRailEndsQty") TopRailEndsQty = quantity;
+      if (element.id === "TrussBarsQty") TrussBarsQty = quantity;
+
+      // Extract material type from the element's ID
+      var material = element.id.replace("Qty", "");
+
+      // Get the price for the material
+      var price = parseFloat(document.getElementById(`${material}Price`).textContent.replace('$', '')) || 0;
+
+      console.log(`Material: ${material}, Price: ${price}, Quantity: ${quantity}`);
+
+      // Update the total price for the material
+      document.getElementById(`${material}Total`).textContent = '$' + (quantity * price).toFixed(2);
+  }
+</script>
 
 
 {% endblock %}

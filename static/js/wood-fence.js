@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const taxRateInput = document.getElementById('taxRate');
     const marginPercentInput = document.getElementById('marginPercent');
 
+    console.log(fenceType,'is the fence type')
+
     // URL parameters
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -59,34 +61,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Load financials and woodFenceMaterials JSON files
         const [materialsResponse, financialsResponse] = await Promise.all([
-            fetch('/materials/woodFenceMaterials.json'),
-            fetch('/materials/financials.json')
+            fetch("/materials/WoodFence"), 
+            fetch("/materials/IronFence")
         ]);
-
+        
         woodFenceMaterials = await materialsResponse.json();
         financials = await financialsResponse.json();
 
-        // Set default rates from financials, if applicable
-        if (laborRateInput && financials.laborRates && financials.laborRates.wood_privacy) {
-            laborRateInput.value = financials.laborRates.wood_privacy['6'] || '7.5';
-        } else {
-            console.error("Labor rate element or financial data not found for 'wood_privacy' 6 ft.");
-        }
 
-        if (taxRateInput && financials.overheadRates) {
-            taxRateInput.value = (financials.overheadRates.taxRate * 100).toFixed(1);
-        } else {
-            console.error("Tax rate element or overhead rates data not found.");
-        }
+        console.log('are wood fence materials', woodFenceMaterials)
+        console.log('are financials ',financials)
 
-        if (marginPercentInput && financials.overheadRates) {
-            marginPercentInput.value = ((1 - financials.overheadRates.profitMargin) * 100).toFixed(1);
-        } else {
-            console.error("Margin percent element or profit margin data not found.");
-        }
+        // // Set default rates from financials, if applicable
+        // if (laborRateInput && financials.laborRates && financials.laborRates.wood_privacy) {
+        //     laborRateInput.value = financials.laborRates.wood_privacy['6'] || '7.5';
+        // } else {
+        //     console.error("Labor rate element or financial data not found for 'wood_privacy' 6 ft.");
+        // }
+
+        // if (taxRateInput && financials.overheadRates) {
+        //     taxRateInput.value = (financials.overheadRates.taxRate * 100).toFixed(1);
+        // } else {
+        //     console.error("Tax rate element or overhead rates data not found.");
+        // }
+
+        // if (marginPercentInput && financials.overheadRates) {
+        //     marginPercentInput.value = ((1 - financials.overheadRates.profitMargin) * 100).toFixed(1);
+        // } else {
+        //     console.error("Margin percent element or profit margin data not found.");
+        // }
 
         // Initialize other parts of the application
-        populateMaterialsTable();
+        // populateMaterialsTable();
         calculateInitialQuantities();
         calculateTotals();
         loadDrawingPreview();
@@ -306,7 +312,8 @@ function calculateTotals() {
     const finalTotal = totalBeforeTax + tax;
 
     // Update display
-    document.getElementById('materialCost').textContent = materialTotal.toFixed(2);
+    const materailcost  = document.getElementById('materialCost').textContent = materialTotal.toFixed(2);
+    console.log(materailcost,'is the material cost 312 django-version')
     document.getElementById('laborCost').textContent = laborTotal.toFixed(2);
     document.getElementById('taxCost').textContent = tax.toFixed(2);
     document.getElementById('profitAmount').textContent = overheadAmount.toFixed(2);
@@ -467,10 +474,13 @@ function loadDrawingPreview() {
     const canvas = document.getElementById('drawing-preview');
     const ctx = canvas.getContext('2d');
     const drawingDataParam = urlParams.get('drawingData');
+    console.log('drawing data param',drawingDataParam)
+    console.log(canvas.toDataURL('image/png'))
 
     if (drawingDataParam) {
         try {
             const data = JSON.parse(drawingDataParam);
+            console.log('the parsed preview',data)
 
             // Set canvas size
             canvas.width = canvas.clientWidth;
@@ -670,7 +680,6 @@ if (marginInput) {
 }
 
 document.getElementById('convertToProposal').addEventListener('click', function () {
-    const customerId = document.getElementById('customerId').value;
     const height = document.getElementById('height').value;
     const stylePickets = document.getElementById('picketsSelect')?.options[document.getElementById('picketsSelect').selectedIndex]?.text || '';
     const stylePosts = document.getElementById('postsSelect')?.options[document.getElementById('postsSelect').selectedIndex]?.text || '';
@@ -691,12 +700,12 @@ document.getElementById('convertToProposal').addEventListener('click', function 
 
     const canvas = document.getElementById('drawing-preview');
     const drawingDataUrl = canvas.toDataURL('image/png');
+    console.log(drawingDataUrl,'is the drawing data url',typeof drawingDataUrl)
 
     const totalCostNum = parseFloat(document.getElementById('totalCost').textContent);
     const taxCostNum = parseFloat(document.getElementById('taxCost').textContent);
 
     const data = {
-        customer_id: customerId,
         height,
         style: {
             pickets: stylePickets,
@@ -717,6 +726,7 @@ document.getElementById('convertToProposal').addEventListener('click', function 
         total: parseFloat(totalCost).toFixed(2),
         drawing: drawingDataUrl
     };
+    console.log('data to post',data)
 
     fetch('/create_proposal', {
         method: 'POST',
@@ -728,6 +738,7 @@ document.getElementById('convertToProposal').addEventListener('click', function 
         .then(response => response.json())
         .then(responseData => {
             if (responseData.proposal_id) {
+                console.log('done')
                 window.location.href = `/proposal/${responseData.proposal_id}`;
             } else {
                 console.error('No proposal ID received:', responseData);

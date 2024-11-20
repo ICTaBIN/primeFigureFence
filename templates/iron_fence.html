@@ -1,14 +1,14 @@
 {% extends "base-templates/base-fence.html" %}
 {% load static %}
 
-{% block title %}Wood Fence{% endblock %}
+{% block title %}Iron Fence{% endblock %}
 
 {% block styles %}
 <link rel="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
-<link href="{% static 'css/wood-fence.css' %}" rel="stylesheet">
+<link href="{% static 'css/iron-fence.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block heading %}Wood Fence{% endblock %}
+{% block heading %}Iron Fence{% endblock %}
 
 {% block scripts %}
 
@@ -16,19 +16,17 @@
 
 
 <script src="{% static 'js/drawing.js' %}"></script>
-<script src="{% static 'js/wood-fence.js' %}"></script>
+<script src="{% static 'js/iron-fence.js' %}"></script>
 <script type="module" src="{% static 'js/templates.js' %}"></script>
 
 
-
- <script>
+<script>
     // Define variables to keep track of quantities
-    var ConcreteQty = 0;
-    var FastenersQty = 0;
-    var GatesQty = 0;
-    var PicketsQty = 0;
+    var PanelsQty = 0;
     var PostsQty = 0;
-    var RailsQty = 0;
+    var BracketsQty = 0;
+    var GatesQty = 0;
+    var GateHardwareQty = 0;
 
     // Function to handle price updates based on dropdown selection
     function updatePrice(selectElement) {
@@ -52,12 +50,11 @@
         console.log("Quantity changed to:", quantity);
 
         // Update the respective quantity variable
-        if (element.id === "ConcreteQty") ConcreteQty = quantity;
-        if (element.id === "FastenersQty") FastenersQty = quantity;
-        if (element.id === "GatesQty") GatesQty = quantity;
-        if (element.id === "PicketsQty") PicketsQty = quantity;
+        if (element.id === "PanelsQty") PanelsQty = quantity;
         if (element.id === "PostsQty") PostsQty = quantity;
-        if (element.id === "RailsQty") RailsQty = quantity;
+        if (element.id === "BracketsQty") BracketsQty = quantity;
+        if (element.id === "GatesQty") GatesQty = quantity;
+        if (element.id === "GateHardwareQty") GateHardwareQty = quantity;
 
         // Extract material type from the element's ID
         var material = element.id.replace("Qty", "");
@@ -71,6 +68,7 @@
         document.getElementById(`${material}Total`).textContent = '$' + (quantity * price).toFixed(2);
     }
 </script>
+
 
 
 
