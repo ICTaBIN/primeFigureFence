@@ -1,6 +1,6 @@
 # Project Instructions
 
-1. Create a folder in your computer and clone the project
+1. Create a folder in your computer and open the terminal(or cmd) clone the project
    ```
    git clone https://github.com/ICTaBIN/cFigureFence.git
    ```
