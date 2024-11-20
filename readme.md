@@ -14,9 +14,9 @@
 ```
 ls
 ```
-ls command this lists all the files and directories(folders) in your current directory. 
+ls command will list all the files and directories(folders) in your current directory. 
 
-2. If you see `manage.py` there run the following commands to run your project successfully
+2. If you see `manage.py` there, run the following commands to run your project successfully
 
 3. Commands
 ```
