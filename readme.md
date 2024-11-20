@@ -8,6 +8,45 @@
    ```
    cd primeFigureFence
    ```
+
+## Specific Instructions for Running Django Project
+1. After Step 2( Navigating to cloned directory) run
+```
+ls
+```
+ls command this lists all the files and directories(folders) in your current directory. 
+
+2. If you see `manage.py` there run the following commands to run your project successfully
+
+3. Commands
+```
+python manage.py makemigrations
+```
+
+```
+python manage.py migrate
+```
+
+optional
+```
+python manage.py createsuperuser
+```
+this command helps you register using   username and password that you can use to login to djangoAdmin  the `/admin`
+
+```
+python manage.py runserver
+```
+
+
+   
+   
+   
+
+
+
+
+
+
 3. Once inside your directory, Check if git folder exists by running status command
    ```
    git status
@@ -34,11 +73,8 @@
    ```
       git switch EXISTING_BRANCH_NAME
    ```
-   this will switch you to existing code of that branch(STAR SYMBOL AGAIN SHIFTS)
+   this will switch you to existing code of that branch(notice the star symbol )
 10. In case, your `master` branch is not up-to-date and you want to make changes to the EXISTING_BRANCH, you can make copy of that
-using the same command in step 6(`git switch -c BRANCH_NAME)
+using the same command in step 6(`git switch -c BRANCH_NAME`)
 
 
-   
-   
-   
