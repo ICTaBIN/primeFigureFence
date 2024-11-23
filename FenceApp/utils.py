@@ -1,17 +1,12 @@
 from pathlib import Path
-from django.shortcuts import render
 from django.http import JsonResponse
-from .utils import *
-# from flask import Flask, render, request, JsonResponse, send_from_directory
+from django.core.mail import send_mail
+from django.conf import settings
 import json
 import os
-import math
 from functools import wraps
 from typing import Dict, Any, Callable
 import logging
-import uuid
-
-import base64
 
 
 logging.basicConfig(level=logging.INFO)
@@ -143,3 +138,5 @@ def load_customers():
 def save_customers(customers):
     with open(CUSTOMER_FILE, 'w') as f:
         json.dump(customers, f, indent=2)
+
+

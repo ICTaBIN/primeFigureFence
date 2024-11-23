@@ -99,6 +99,7 @@
     </style>
 </head>
 <body>
+    {% include 'partials/message.html' %}
     <h1>Welcome to Your Dashboard!</h1>
     <p>Navigate through the tools and resources below.</p>
 
@@ -129,6 +130,9 @@
         </div>
         <div class="link-card">
             <a href="/company_settings">Company Settings</a>
+        </div>
+        <div class="link-card">
+            <a href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
 </body>

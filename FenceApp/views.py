@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import logout
 from collections import defaultdict
 from itertools import chain
 from django.http import JsonResponse
@@ -17,6 +18,7 @@ from .models import Customer, Company, LaborRate, OverheadRates, Proposal, Mater
 import base64
 from django.contrib import messages
 from django.urls import reverse
+from .decorators import custom_login_required, redirect_if_logged_in
 
 
 
@@ -27,8 +29,19 @@ logger = logging.getLogger(__name__)
 
 # Add these functions after the existing helper functions
 
+@redirect_if_logged_in
+def login(request):
+    return render(request,'login.html')
 
+def logout_view(request):
+    logout(request)
+    return redirect("/")
 
+@custom_login_required
+def dashboard(request):
+    return render(request,'dashboard.html')
+
+@custom_login_required
 def company_settings(request, company_id):
     # Get specific company or 404
     company = get_object_or_404(Company, id=company_id)
@@ -110,11 +123,8 @@ def company_settings(request, company_id):
     return render(request, 'company_settings.html', context=context)
 
 
-
-def dashboard(request):
-    return render(request,'dashboard.html')
-
 @csrf_exempt
+@custom_login_required
 def create_proposal(request):
     print("just before try")
     try:
@@ -160,39 +170,7 @@ def create_proposal(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 
-# def view_proposal(request, proposal_id):
-#     # try:
-#     proposal = get_object_or_404(Proposal, id=proposal_id)
-#     customer = proposal.customer
-#     company = Company.objects.first()
-
-#     overhead_rates = OverheadRates.objects.get(company=company)
-#     total = float(str(proposal.get('total', '0')).replace('$', '').strip())
-#     tax = float(str(proposal.get('tax', '0')).replace('$', '').strip())
-#     subtotal = total - tax
-#     materialCost = float(str(proposal.get('materialCost', '0')).replace('$', '').strip()),
-#     laborCost = float(str(proposal.get('laborCost', '0')).replace('$', '').strip())
-
-#     proposal['total'] = total
-#     proposal['tax'] = tax
-#     proposal['subtotal'] = subtotal
-#     proposal['materialCost'] = materialCost
-#     proposal['laborCost'] = laborCost
-
-#     proposal.save()
-
-#     context = {
-#         'proposal': proposal,
-#         'customer': customer,
-#         'company': company,
-#         'proposal' : proposal
-#     }
-#     return render(request, 'proposal1.html', context)
-#     # except Exception as e:
-#     #     logger.error(f"Error viewing proposal: {e}")
-#     #     messages.error(request, f"Error viewing proposal: {str(e)}")
-#     #     return redirect('dashboard')
-
+@custom_login_required
 def view_proposal(request, proposal_id):
     try:
         proposal = get_object_or_404(Proposal, id=proposal_id)
@@ -231,7 +209,7 @@ def view_proposal(request, proposal_id):
         return redirect('dashboard')
 
 
-
+@custom_login_required
 def pricing(request):
 
     # all available material categories
@@ -270,6 +248,7 @@ def pricing(request):
 
 
 @csrf_exempt
+@custom_login_required
 def delete_material_instance(request, material_instance_id):
 
     try:
@@ -354,7 +333,7 @@ def drawing_tool(request):
     return render(request,"drawingtool.html",context={"customer_id" : customer_id})
 
 
-
+@custom_login_required
 def wood_fence(request):
     print(request.POST)
     material_category= MaterialCategory.objects.get(name='WoodFence')
@@ -388,7 +367,7 @@ def wood_fence(request):
     return render(request, 'wood_fence.html',context=context)
 
 
-
+@custom_login_required
 def iron_fence(request):
 
     material_category= MaterialCategory.objects.get(name='IronFence')
@@ -404,6 +383,8 @@ def iron_fence(request):
             }
     return render(request,'iron_fence.html',context=context)
 
+
+@custom_login_required
 def chain_link_fence(request):
 
     material_category= MaterialCategory.objects.get(name='ChainLink')
@@ -479,14 +460,14 @@ def delete_template(request, name):
 #     return send_from_directory(app.static_folder, filename)
 
 
-
+@custom_login_required
 def customer_list(request):
     customer_list = Customer.objects.all()
     print(customer_list)
     return render(request,'customer_list.html', context={'customer_list': customer_list})
 
 
-
+@custom_login_required
 def customer_proposals(request, customer_id):
     
     customer = Customer.objects.get(id=customer_id)
@@ -505,12 +486,12 @@ def customer_proposals(request, customer_id):
     )
 
 
-
+@custom_login_required
 def customer_data(request):
     return render(request,'customer_data.html')
 
 
-
+@custom_login_required
 def submit_customer_data(request):
 
     if request.method == 'POST':
