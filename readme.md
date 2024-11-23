@@ -19,6 +19,7 @@ ls command will list all the files and directories(folders) in your current dire
 2. If you see `manage.py` there, run the following commands to run your project successfully
 
 3. Create a Virtual Environment
+   
     **For Windows**
     ```
     python -m venv venv
@@ -27,7 +28,8 @@ ls command will list all the files and directories(folders) in your current dire
     ```
     python3 -m venv venv
     ```
-4. Activate the Virtual Environment
+5. Activate the Virtual Environment
+   
    **For Windows**
    ```
     venv/Scripts/activate
@@ -37,7 +39,7 @@ ls command will list all the files and directories(folders) in your current dire
      source venv/bin/activate
    ```
 
-5. Install Dependencies in the Environment
+7. Install Dependencies in the Environment
  ```
   pip install -r requirements.txt
  ```
