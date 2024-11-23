@@ -1,4 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from ..managers import CustomUserManager
+
+
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=False) # by default user won't be active
+    USERNAME_FIELD = 'email'
+    username=None
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
+
+
 
 class Company(models.Model):
     FENCE_TYPES = [
@@ -15,11 +33,11 @@ class Company(models.Model):
     ]
 
     # Basic Info
-    name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15)
-    email = models.EmailField()
-    website = models.URLField()
+    name = models.CharField(max_length=255, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    phone = models.CharField(max_length=15, blank=True)
+    email = models.ForeignKey(CustomUser, on_delete=models.CASCADE) 
+    website = models.URLField(blank=True)
     logo = models.ImageField(upload_to='logos/', blank=True)
 
     class Meta:
@@ -43,6 +61,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=15)
     email = models.EmailField()
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

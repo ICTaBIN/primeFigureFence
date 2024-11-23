@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'FenceApp',
+    'FenceApp.apps.FenceappConfig',
 
     
     # app for htmx(ajax)
@@ -169,7 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-
+AUTH_USER_MODEL = "FenceApp.CustomUser"
 
 
 # ___________________________________________________for google auth__________________________________________________

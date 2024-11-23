@@ -42,9 +42,9 @@ def dashboard(request):
     return render(request,'dashboard.html')
 
 @custom_login_required
-def company_settings(request, company_id):
+def company_settings(request):
     # Get specific company or 404
-    company = get_object_or_404(Company, id=company_id)
+    company = get_object_or_404(Company, email=request.user)
 
     if request.method == 'POST':
         try:
@@ -52,7 +52,6 @@ def company_settings(request, company_id):
             company.name = request.POST.get('company_name', company.name)
             company.address = request.POST.get('company_address', company.address)
             company.phone = request.POST.get('company_phone', company.phone)
-            company.email = request.POST.get('company_email', company.email)
             company.website = request.POST.get('company_website', company.website)
 
             # Only update logo if new one was uploaded
@@ -97,10 +96,10 @@ def company_settings(request, company_id):
                             )
 
             messages.success(request, 'Company settings saved successfully!')
-            return redirect('company_settings', company_id=company_id)
+            return redirect('company_settings')
         except Exception as e:
             messages.error(request, f'Error saving settings: {str(e)}')
-            return redirect('company_settings', company_id=company_id)
+            return redirect('company_settings')
 
     # For GET request
     rates = LaborRate.objects.filter(company=company)
@@ -344,7 +343,7 @@ def wood_fence(request):
     for material in wood_fence_materials:
         grouped_materials[material.name]  = material.material_set.all()
     
-    company = Company.objects.first()
+    company = company = get_object_or_404(Company, email=request.user)
 
 
     labor_rate = LaborRate.objects.get(fence_type='wood_privacy', height='6', company=company)
@@ -462,7 +461,8 @@ def delete_template(request, name):
 
 @custom_login_required
 def customer_list(request):
-    customer_list = Customer.objects.all()
+    company = get_object_or_404(Company, email=request.user)
+    customer_list = Customer.objects.filter(company=company)
     print(customer_list)
     return render(request,'customer_list.html', context={'customer_list': customer_list})
 
@@ -497,13 +497,13 @@ def submit_customer_data(request):
     if request.method == 'POST':
 
         data = request.POST
-
+        company = get_object_or_404(Company, email=request.user)
         name = data['name']
         address = data['address']
         phone = data['phone']
         email = data['email']
         
-        customer = Customer(name=name, address=address, phone=phone, email=email)
+        customer = Customer(name=name, address=address, phone=phone, email=email,company=company)
         customer.save()
 
         return redirect('customer_list')
