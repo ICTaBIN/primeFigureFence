@@ -19,20 +19,20 @@ ls command will list all the files and directories(folders) in your current dire
 2. If you see `manage.py` there, run the following commands to run your project successfully
 
 3. Create a Virtual Environment
-    **For Windows
+    **For Windows**
     ```
     python -m venv venv
     ```
-    2. For Linux
+    **For Linux**
     ```
     python3 -m venv venv
     ```
 4. Activate the Virtual Environment
-   1. For Windows
+   **For Windows**
    ```
     venv/Scripts/activate
    ```
-   2. For Linux
+   **For Linux**
    ```
      source venv/bin/activate
    ```
