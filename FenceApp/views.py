@@ -1,23 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout
-from collections import defaultdict
 from itertools import chain
 from django.http import JsonResponse
 from .utils import *
 # from flask import Flask, render, request, JsonResponse, send_from_directory
 import json
-import os
-import math
-from functools import wraps
-from typing import Dict, Any, Callable
 import logging
-import uuid
 from .models import Customer, Company, LaborRate, OverheadRates, Proposal, MaterialCategory, MaterialType, Material
-
-import base64
 from django.contrib import messages
-from django.urls import reverse
 from .decorators import custom_login_required, redirect_if_logged_in
 
 
@@ -65,28 +56,34 @@ def company_settings(request):
             if not overhead:
                 overhead = OverheadRates(company=company)
 
+            print("_________________________________Overhead Rates_________________________________")
             if request.POST.get('profit_margin'):
+                print(f'the profit margin is : {request.POST.get("profit_margin")}')
                 overhead.profit_margin = request.POST.get('profit_margin')
             if request.POST.get('tax_rate'):
+                print(f'the tax rate is : {request.POST.get("tax_rate")}')
                 overhead.tax_rate = request.POST.get('tax_rate')
             if request.POST.get('waste_factor'):
+                print(f'the waste factor is : {request.POST.get("waste_factor")}')
                 overhead.waste_factor = request.POST.get('waste_factor')
             overhead.save()
 
             # 3. Update LaborRates - only update rates that were provided
+            print("_________________________________Labor Rates_________________________________")
             for fence_type in company.get_fence_types:
+                print(f"\nFor Fence Type: {fence_type}")
                 for height in company.get_fence_heights:
                     rate_key = f'labor_rate_{fence_type}_{height}'
                     if rate_key in request.POST and request.POST[rate_key]:
+                        print(f"\tLabor Rate for Height {height}: ",request.POST[rate_key])
                         rate = LaborRate.objects.filter(
                             company=company,
                             fence_type=fence_type,
                             height=height
                         ).first()
-                        
+                        print("rate obj: ",rate)
                         if rate:
                             rate.rate = request.POST[rate_key]
-                            rate.save()
                         else:
                             LaborRate.objects.create(
                                 company=company,
@@ -94,6 +91,7 @@ def company_settings(request):
                                 height=height,
                                 rate=request.POST[rate_key]
                             )
+                        rate.save()
 
             messages.success(request, 'Company settings saved successfully!')
             return redirect('company_settings')
@@ -103,22 +101,13 @@ def company_settings(request):
 
     # For GET request
     rates = LaborRate.objects.filter(company=company)
-    labor_rates_dict = {}
-    for rate in rates:
-        print("rate", rate)
-        if rate.fence_type not in labor_rates_dict:
-            labor_rates_dict[rate.fence_type] = {}
-        labor_rates_dict[rate.fence_type][rate.height] = rate.rate
-
     context = {
         'company_info': company,
         'overhead': OverheadRates.objects.filter(company=company).first(),
         'fence_types': company.get_fence_types,
         'heights': company.get_fence_heights,
-        'labor_rates': labor_rates_dict
+        'labor_rates': rates
     }
-    print("labor_rates", labor_rates_dict)
-
     return render(request, 'company_settings.html', context=context)
 
 

@@ -14,7 +14,7 @@ class LaborRate(models.Model):
     rate = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
-        return f"{self.company} - {self.fence_type} - {self.height} feet"
+        return f"rate of {self.fence_type} fence with height {self.height} feet in Company {self.company} is {self.rate}"
 
     class Meta:
         unique_together = ['company', 'fence_type', 'height']

@@ -163,16 +163,18 @@
                     {% for fence_type, fence_name in company_info.FENCE_TYPES %}
                     <div class="rate-group">
                         <h4>{{ fence_name }}</h4>
-                        {% for height, height_display in company_info.FENCE_HEIGHTS %}
+                       {% for rate in labor_rates %}
+                        {% if rate.fence_type == fence_type %}
                         <div class="form-group">
-                            <label for="labor_rate_{{ fence_type }}_{{ height }}">{{ height_display }} Height</label>
+                            <label for="labor_rate_{{ fence_type }}_{{ rate.height }}">{{ rate.height }} Height</label>
                             <input type="number"
-                                   id="labor_rate_{{ fence_type }}_{{ height }}"
-                                   name="labor_rate_{{ fence_type }}_{{ height }}"
-                                   value="{% if labor_rates %}{{ labor_rates.fence_type.height|default:'0' }}{% else %}0{% endif %}"
+                                   id="labor_rate_{{ fence_type }}_{{ rate.height }}"
+                                   name="labor_rate_{{ fence_type }}_{{ rate.height }}"
+                                   value="{{rate.rate}}"
                                    step="0.5" min="0">
                         </div>
-                        {% endfor %}
+                        {% endif %}
+                       {% endfor %}
                     </div>
                     {% endfor %}
                 </div>
