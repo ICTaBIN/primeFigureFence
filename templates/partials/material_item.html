@@ -1,0 +1,16 @@
+<form method="post" hx-post="{% url 'update_material_instance' material_instance.id %}" hx-target="#material_instance_item_{{ material_instance.id }}" hx-swap="innerHTML">
+    {% include 'partials/message.html' %}
+    {% csrf_token %}
+    <div class="item" style="border: none;">
+    {% for key, value in material_instance.material_data.items %}
+        <div class="field">
+            <label for="{{ key }}">{{ key }}</label>
+            <input type="text" id="{{ key }}" name="material_data[{{ key }}]" value="{{ value }}">
+        </div>
+    {% endfor %}
+    <div>
+        <button type="submit" class="add-button">Update</button>
+        <button class="actions" hx-post="{% url 'delete_material_instance' material_instance.id %}" hx-target="#material_instance_item_{{ material_instance.id }}" hx-swap="outerHTML">Delete</button>
+    </div>
+</div>
+</form>

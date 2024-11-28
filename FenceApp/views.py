@@ -227,16 +227,17 @@ def pricing(request):
     # all available material categories
     all_categories = MaterialCategory.objects.all()
 
-    # lookup chosen category in database
+    # lookup chosen category in database i.e WoodFence, IronFence
     user_selected_category= request.GET.get('material_category',None)
     category = MaterialCategory.objects.get(name=user_selected_category) if user_selected_category else None
 
-    # all materials of that specific category
+    # all materials of that specific category i.e for WoodFence:  concrete, Fasteners etc
     material_types = MaterialType.objects.filter(category = category) if category else None
 
-    # lookup chosen material instances in database
+    # lookup chosen material type in database i.e Concrete
     user_selected_material_type = request.GET.get('material_type',None)
-    print('going for serach')
+
+    # lookup all instances of that material type i.e for Concrete : concrete 50lb, concrete 80lb
     material_type = MaterialType.objects.filter(name=user_selected_material_type, category=category) if user_selected_material_type else None
     print(material_type,'is the material type')
     selected_materials = None
@@ -246,18 +247,48 @@ def pricing(request):
     print(selected_materials,'are the selected materials')
     
 
-
-    
     context = {
-        'material_categories': all_categories,
-        'selected_category': user_selected_category,
-        'material_types': material_types,
-        'selected_material_type' : material_type,
-        'material_instances' : selected_materials
+        'material_categories': all_categories,  # WoodFence, IronFence etc
+        'selected_category': user_selected_category,  # WoodFence  
+        'material_types': material_types,  # WoodFence ->   Concrete, Fasteners etc
+        'selected_material_type' : material_type,  # Concrete
+        'material_instances' : selected_materials  # Concrete 50lb, Concrete 80lb 
         
         }
-    return render(request,'pricing.html', context=context) #files=files
+    return render(request,'pricing.html', context=context)
 
+@csrf_exempt
+@custom_login_required
+def update_material_instance(request, material_instance_id):
+    if request.method == "POST":
+        try:
+            # Retrieve the existing material instance
+            material_instance = Material.objects.get(id=material_instance_id)
+
+            # Update the material_data field from the POST data
+            updated_data = request.POST.dict()
+            material_data = {
+                key.replace("material_data[", "").replace("]", ""): value
+                for key, value in updated_data.items()
+                if key.startswith("material_data[")
+            }
+
+            # Save changes to the instance
+            material_instance.material_data = material_data
+            material_instance.save()
+
+            # Show success message
+            messages.success(request, "Material was updated successfully!", extra_tags="success")
+
+            # Optionally render a partial or updated HTML for this item
+            return render(request, 'partials/material_item.html', {'material_instance': material_instance})
+
+        except Material.DoesNotExist:
+            # Handle case where material with the given ID doesn't exist
+            messages.error(request, "Material not found.", extra_tags="error")
+
+    # Return the same view on error or GET request
+    return render(request, 'partials/message.html')
 
 @csrf_exempt
 @custom_login_required

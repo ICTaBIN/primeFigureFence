@@ -104,7 +104,7 @@
             flex-direction: column;
         }
 
-        .actions button {
+        .actions {
             background: var(--danger);
             color: white;
             padding: 0.5rem;
@@ -116,14 +116,14 @@
             font-size: 0.8rem;
         }
 
-        .actions button:hover {
+        .actions:hover {
             background: var(--danger-hover);
         }
 
         .add-button {
             background: var(--success);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem;
             border: none;
             border-radius: 0.5rem;
             font-weight: 600;
@@ -179,20 +179,12 @@
 
         <div id="data-container" class="data-container">
             {% for material_instance in material_instances %}
-                <div class="item" id="material_instance_item">
-                    {% for key, value in material_instance.material_data.items %}
-                        <div class="field">
-                                <label for="{{ key }}">{{ key }}</label>
-                                <input type="text" id="{{ key }}" name="{{ key }}" value="{{ value }}">
-                        </div>
-                    {% endfor %}
-                        <div class="actions">
-                            <button hx-post="{% url 'delete_material_instance' material_instance.id %}" hx-target="#material_instance_item" hx-swap="outerHTML">Delete</button>
-                        </div> 
-                    </div>
-                
-                    {% endfor %}
+                <div class="item" id="material_instance_item_{{ material_instance.id }}">
+                    {% include 'partials/material_item.html' %}
+                </div>
+            {% endfor %}
         </div>
+        
 <!-- 
 <script>
     let currentFile = '';
