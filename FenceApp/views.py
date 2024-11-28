@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 # Add these functions after the existing helper functions
 
 @redirect_if_logged_in
-def login(request):
+def login_view(request):
     return render(request,'login.html')
 
 def logout_view(request):
@@ -56,7 +56,7 @@ def company_settings(request):
             if not overhead:
                 overhead = OverheadRates(company=company)
 
-            print("_________________________________Overhead Rates_________________________________")
+            print("_________________________________Setting Overhead Rates_________________________________")
             if request.POST.get('profit_margin'):
                 print(f'the profit margin is : {request.POST.get("profit_margin")}')
                 overhead.profit_margin = request.POST.get('profit_margin')
@@ -69,7 +69,7 @@ def company_settings(request):
             overhead.save()
 
             # 3. Update LaborRates - only update rates that were provided
-            print("_________________________________Labor Rates_________________________________")
+            print("_________________________________Setting Labor Rates_________________________________")
             for fence_type in company.get_fence_types:
                 print(f"\nFor Fence Type: {fence_type}")
                 for height in company.get_fence_heights:
@@ -98,9 +98,33 @@ def company_settings(request):
         except Exception as e:
             messages.error(request, f'Error saving settings: {str(e)}')
             return redirect('company_settings')
+    
+    # COME UP WITH THE LOGIC
+    labor_rates = {}
+    for fence_type in company.get_fence_types:
+        print(fence_type)
+        labor_rates[fence_type] = {}
+        for height in company.get_fence_heights:
+            print(height)
+            rate, created = LaborRate.objects.get_or_create(company=company, fence_type=fence_type, height=height,defaults={'rate': 0})
+            print('created is ',created)
 
-    # For GET request
-    rates = LaborRate.objects.filter(company=company)
+            # if there was no rate for certain height it defaults to 0
+            labor_rates[fence_type][height] = rate.rate 
+
+     
+    # Flatten the data for easier template rendering
+    rates = []
+    for fence_type, heights in labor_rates.items():
+        for height, rate in heights.items():
+            rates.append({
+                'fence_type': fence_type,
+                'height': height,
+                'rate': rate
+            })
+    
+    print(rates)
+    
     context = {
         'company_info': company,
         'overhead': OverheadRates.objects.filter(company=company).first(),
@@ -130,6 +154,7 @@ def create_proposal(request):
         subtotal = total - tax  # Calculate subtotal from total and tax
 
         # Create Proposal instance
+        print("while creating proposal --- the styles were : ",data.get('style'))
         proposal = Proposal.objects.create(
             customer=customer,
             height=data.get('height', ''),
@@ -146,7 +171,6 @@ def create_proposal(request):
             total=total,
             drawing=data.get('drawing', '')
         )
-        print(data.get('drawing'))
 
         return JsonResponse({"proposal_id": proposal.id})
 
@@ -324,6 +348,7 @@ def drawing_tool(request):
 @custom_login_required
 def wood_fence(request):
     print(request.POST)
+    # fetch all types under 'WoodFence Category'
     material_category= MaterialCategory.objects.get(name='WoodFence')
 
     wood_fence_materials = MaterialType.objects.filter(category=material_category)
@@ -331,26 +356,10 @@ def wood_fence(request):
     grouped_materials  = {}
     for material in wood_fence_materials:
         grouped_materials[material.name]  = material.material_set.all()
-    
-    company = company = get_object_or_404(Company, email=request.user)
-
-
-    labor_rate = LaborRate.objects.get(fence_type='wood_privacy', height='6', company=company)
-    overhead_rates = OverheadRates.objects.get(company=company)
-    
-
-    print(labor_rate,'was the labor_rate')
-    print(overhead_rates)
-    
-
 
     context={
         "grouped_materials" : grouped_materials,
-        "labor_rate" : labor_rate,
-        "overhead_rates" : {"tax_rate" : overhead_rates.tax_rate*100,
-                             "margin_percent" : (1-overhead_rates.profit_margin) *100 
-                           }
-            }
+        }
 
     return render(request, 'wood_fence.html',context=context)
 

@@ -119,7 +119,6 @@
                 </div>
                 <div class="form-group">
                     <label> Email: <strong>{{company_info.email}}</strong></label>
-                    <!-- <input type="email" id="company_email" name="company_email" value="{{ company_info.email }}"> -->
                 </div>
                 <div class="form-group">
                     <label for="company_website">Website</label>
@@ -157,24 +156,24 @@
                                step="0.01" min="1">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <h3>Labor Rates (per linear foot)</h3>
-                    {% for fence_type, fence_name in company_info.FENCE_TYPES %}
+                    {% for fence_type in fence_types %}
                     <div class="rate-group">
-                        <h4>{{ fence_name }}</h4>
-                       {% for rate in labor_rates %}
-                        {% if rate.fence_type == fence_type %}
-                        <div class="form-group">
-                            <label for="labor_rate_{{ fence_type }}_{{ rate.height }}">{{ rate.height }} Height</label>
-                            <input type="number"
-                                   id="labor_rate_{{ fence_type }}_{{ rate.height }}"
-                                   name="labor_rate_{{ fence_type }}_{{ rate.height }}"
-                                   value="{{rate.rate}}"
-                                   step="0.5" min="0">
-                        </div>
-                        {% endif %}
-                       {% endfor %}
+                        <h4>{{ fence_type }}</h4>
+                        {% for rate_data in labor_rates %}
+                            {% if rate_data.fence_type == fence_type %}
+                            <div class="form-group">
+                                <label for="labor_rate_{{ fence_type }}_{{ rate_data.height }}">{{ rate_data.height }} Height</label>
+                                <input type="number"
+                                    id="labor_rate_{{ fence_type }}_{{ rate_data.height }}"
+                                    name="labor_rate_{{ fence_type }}_{{ rate_data.height }}"
+                                    value="{{rate_data.rate}}"
+                                    step="0.5" min="0">
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+
                     </div>
                     {% endfor %}
                 </div>
