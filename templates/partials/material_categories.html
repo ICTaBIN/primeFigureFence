@@ -1,0 +1,4 @@
+<option value="" disabled>Select a category</option>
+{% for category in categories %}
+    <option value="{{ category.id }}">{{ category.name }}</option>
+{% endfor %}

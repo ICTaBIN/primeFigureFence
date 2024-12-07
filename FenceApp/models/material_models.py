@@ -21,8 +21,11 @@ class MaterialType(models.Model):
 
 
 class Material(models.Model):
-    material_data = models.JSONField()
-    material_type = models.ForeignKey('MaterialType',on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)  # Added name field
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Added price field
+    material_data = models.JSONField()  # additional attributes
+    material_type = models.ForeignKey('MaterialType', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.material_data.get("name")
+        return self.name  # Updated to return the name field
+

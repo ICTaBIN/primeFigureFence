@@ -1,0 +1,4 @@
+<option value="" disabled>Select a Material Type</option>
+{% for type in material_types %}
+    <option value="{{ type.id }}">{{ type.name }}</option>
+{% endfor %}

@@ -260,12 +260,18 @@ def pricing(request):
 @csrf_exempt
 @custom_login_required
 def update_material_instance(request, material_instance_id):
+    print(request.POST,'data for updating')
     if request.method == "POST":
         try:
             # Retrieve the existing material instance
             material_instance = Material.objects.get(id=material_instance_id)
 
             # Update the material_data field from the POST data
+            material_name = request.POST.get("name")
+            material_price = request.POST.get("price")
+
+
+            # additional data attributes
             updated_data = request.POST.dict()
             material_data = {
                 key.replace("material_data[", "").replace("]", ""): value
@@ -274,6 +280,8 @@ def update_material_instance(request, material_instance_id):
             }
 
             # Save changes to the instance
+            material_instance.name = material_name
+            material_instance.price = material_price
             material_instance.material_data = material_data
             material_instance.save()
 
@@ -516,6 +524,37 @@ def customer_proposals(request, customer_id):
 
 
 @custom_login_required
+def add_material(request):
+    if request.method == 'POST':
+        print(f"inside the add_material: POST data: {request.POST}")
+        # Extract name and price from form data
+        name = request.POST.get('name')
+        price = request.POST.get('price')
+        material_type_id = request.POST.get('material_type')  # Assume material_type is passed in the form
+
+        # Extract additional dynamic fields
+        material_data = {}
+        for key, value in request.POST.items():
+            if key not in ['name', 'price', 'csrfmiddlewaretoken', 'material_category', 'material_type']:
+                material_data[key] = value
+
+        # Fetch the MaterialType instance (modify as per your setup)
+        material_type = MaterialType.objects.get(id=material_type_id)
+
+        # Create and save the Material instance
+        material = Material.objects.create(
+            name=name,
+            price=price,
+            material_data=material_data,
+            material_type=material_type,
+        )
+        return redirect('material-items-list')  # Replace with your success page
+
+    # For GET requests, render the form
+    return render(request, 'add_material.html')
+
+
+@custom_login_required
 def customer_data(request):
     return render(request,'customer_data.html')
 
@@ -537,6 +576,42 @@ def submit_customer_data(request):
 
         return redirect('customer_list')
     return JsonResponse({"error": "Method not allowed"}, status=405)
+
+
+
+
+@custom_login_required
+def get_material_categories(request):
+    categories = MaterialCategory.objects.all()
+    return render(request, 'partials/material_categories.html', context= {'categories': categories})
+
+
+
+@custom_login_required
+def get_material_types(request):
+    material_category = request.GET.get('material_category')
+    category = MaterialCategory.objects.get(id=material_category)
+    print(f"category: {category}")
+    material_types = MaterialType.objects.filter(category=category)
+    print(f"material_type: {material_types}")
+    return render(request, 'partials/material_types.html', {'material_types': material_types})
+
+
+
+
+@custom_login_required
+def material_items_list(request):
+    material_items_list = Material.objects.all()
+    print(material_items_list)
+    return render(request,'material_items_list.html', context={'material_items_list': material_items_list})
+
+
+
+
+
+
+
+
 
 
 

@@ -1,16 +1,34 @@
-<form method="post" hx-post="{% url 'update_material_instance' material_instance.id %}" hx-target="#material_instance_item_{{ material_instance.id }}" hx-swap="innerHTML">
+<form method="post"
+      hx-post="{% url 'update_material_instance' material_instance.id %}"
+      hx-target="#material_instance_item_{{ material_instance.id }}"
+      hx-swap="innerHTML">
+
     {% include 'partials/message.html' %}
     {% csrf_token %}
-    <div class="item" style="border: none;">
-    {% for key, value in material_instance.material_data.items %}
+
+    <div class="item" style="border: none;" id="material_instance_item_{{ material_instance.id }}">
         <div class="field">
-            <label for="{{ key }}">{{ key }}</label>
-            <input type="text" id="{{ key }}" name="material_data[{{ key }}]" value="{{ value }}">
+            <label for="name_{{ material_instance.id }}">Name</label>
+            <input type="text" id="name_{{ material_instance.id }}" name="name" value="{{ material_instance.name }}">
         </div>
-    {% endfor %}
-    <div>
-        <button type="submit" class="add-button">Update</button>
-        <button class="actions" hx-post="{% url 'delete_material_instance' material_instance.id %}" hx-target="#material_instance_item_{{ material_instance.id }}" hx-swap="outerHTML">Delete</button>
+        <div class="field">
+            <label for="price_{{ material_instance.id }}">Price</label>
+            <input type="text" id="price_{{ material_instance.id }}" name="price" value="{{ material_instance.price }}">
+        </div>
+
+        {% for key, value in material_instance.material_data.items %}
+            <div class="field">
+                <label for="{{ key }}_{{ material_instance.id }}">{{ key }}</label>
+                <input type="text" id="{{ key }}_{{ material_instance.id }}" name="material_data[{{ key }}]" value="{{ value }}">
+            </div>
+        {% endfor %}
+
+        <div>
+            <button type="submit" class="add-button">Update</button>
+            <button type="button" class="actions"
+                    hx-post="{% url 'delete_material_instance' material_instance.id %}"
+                    hx-target="#material_instance_item_{{ material_instance.id }}"
+                    hx-swap="outerHTML">Delete</button>
+        </div>
     </div>
-</div>
 </form>

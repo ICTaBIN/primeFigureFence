@@ -27,8 +27,13 @@ urlpatterns = [
     path('customer_data/', views.customer_data, name="customer_data"),
     path('submit_customer_data/', views.submit_customer_data, name="submit_customer_data"),
 
+    path('get-material-categories/', views.get_material_categories, name="get-material-categories"),
+    path('get-material-types/', views.get_material_types, name="get-material-types"),
+
+    path('add-material/', views.add_material, name="add-material"),
+    path('material-items-list/',views.material_items_list, name="material-items-list"),
+
     path('delete_material_instance/<str:material_instance_id>', views.delete_material_instance, name="delete_material_instance"),
     path('update_material_instance/<str:material_instance_id>', views.update_material_instance, name="update_material_instance"),
-    # path('add_material_instance/', views.add_material_instance, name="add_material_instance")
-
+    
 ]
