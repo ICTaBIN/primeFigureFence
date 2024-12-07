@@ -2,7 +2,7 @@
 
 1. Create a folder in your computer and open the terminal(or cmd) clone the project
    ```
-   git clone https://github.com/ICTaBIN/cFigureFence.git
+   [git clone https://github.com/ICTaBIN/cFigureFence.git](https://github.com/ICTaBIN/primeFigureFence.git)
    ```
 2. change directory to the cloned folder directory
    ```
