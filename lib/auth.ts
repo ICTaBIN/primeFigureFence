@@ -1,7 +1,7 @@
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
-import db from "./database"
+import getDatabase from "./database"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,18 +14,24 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
 
-        const user = db.prepare("SELECT * FROM users WHERE email = ?").get(credentials.email) as any
+        try {
+          const db = getDatabase()
+          const user = db.prepare("SELECT * FROM users WHERE email = ?").get(credentials.email) as any
 
-        if (!user || !bcrypt.compareSync(credentials.password, user.password_hash)) {
+          if (!user || !bcrypt.compareSync(credentials.password, user.password_hash)) {
+            return null
+          }
+
+          return {
+            id: user.id.toString(),
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            companyId: user.company_id.toString(),
+          }
+        } catch (error) {
+          console.error("Auth error:", error)
           return null
-        }
-
-        return {
-          id: user.id.toString(),
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          companyId: user.company_id.toString(),
         }
       },
     }),

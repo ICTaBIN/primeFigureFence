@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import db from "@/lib/database"
+import getDatabase from "@/lib/database"
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
 
     const { customer, fenceData, calculation, title } = await request.json()
     const companyId = (session.user as any).companyId
+    const db = getDatabase()
 
     // Insert or get customer
     let customerId
@@ -57,6 +58,8 @@ export async function GET(request: NextRequest) {
     }
 
     const companyId = (session.user as any).companyId
+    const db = getDatabase()
+
     const proposals = db
       .prepare(`
       SELECT p.*, c.name as customer_name, c.email as customer_email
